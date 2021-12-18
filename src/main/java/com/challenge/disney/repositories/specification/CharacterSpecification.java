@@ -40,7 +40,7 @@ public class CharacterSpecification {
             }
 
             if(!CollectionUtils.isEmpty(filterDTO.getMovieId())) {
-                Join<CharacterEntity, MovieEntity> join = root.join("movie", JoinType.INNER);
+                Join<CharacterEntity, MovieEntity> join = root.join("movies", JoinType.INNER);
                 Expression<String> movieId = join.get("idMovie");
                 predicates.add(movieId.in(filterDTO.getMovieId()));
             }
