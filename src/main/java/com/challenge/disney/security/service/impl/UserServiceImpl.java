@@ -7,6 +7,7 @@ import com.challenge.disney.security.enums.Rol;
 import com.challenge.disney.security.mapper.UserMapper;
 import com.challenge.disney.security.repository.UserRepository;
 import com.challenge.disney.security.service.UserService;
+import com.challenge.disney.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,15 +30,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final BCryptPasswordEncoder encoder;
 
+    private final MailService mailService;
+
     private final String MESSAGE = "The user with email %s not exist.";
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            UserMapper userMapper,
-                           BCryptPasswordEncoder encoder) {
+                           BCryptPasswordEncoder encoder,
+                           MailService mailService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.encoder = encoder;
+        this.mailService = mailService;
     }
 
     @Override
@@ -50,6 +55,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new ServiceError("User already exists");
         }
 
+        if(!userDTO.getUsername().contains("@")) {
+            throw new ServiceError("You have to provide a valid email");
+        }
+
         if(!userRepository.existsUserEntityByRol(Rol.ADMIN)) {
             userDTO.setRol(Rol.ADMIN);
         } else {
@@ -59,6 +68,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userDTO.setPassword(encoder.encode(userDTO.getPassword()));
 
         UserEntity user = userMapper.convertDTO2Entity(userDTO);
+
+        mailService.sendEmailTo(user.getUsername());
 
         userRepository.save(user);
     }
