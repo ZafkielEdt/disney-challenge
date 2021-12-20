@@ -11,6 +11,8 @@ spring:
     properties:
       dialect: org.hibernate.dialect.MySQL8Dialect
       format_sql: true
-  mvc:
-    format:
-      date: yyyy/MM/dd
+#  security:
+#    jwt:
+#      secret: ghk45jgherogho834go3h4g
+#      issuer: Main
+#      ttlMillis: 604800000
