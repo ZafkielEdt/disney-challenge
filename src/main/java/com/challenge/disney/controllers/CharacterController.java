@@ -6,6 +6,7 @@ import com.challenge.disney.services.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ public class CharacterController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROL_ADMIN')")
     public ResponseEntity<List<CharacterDTOBasic>> getAllCharacters() {
 
         List<CharacterDTOBasic> characters = characterService.getAllCharacters();
@@ -32,6 +34,7 @@ public class CharacterController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROL_ADMIN')")
     public ResponseEntity<CharacterDTO> getCharacter(@PathVariable Long id) {
 
         CharacterDTO dtoResult = characterService.getCharacter(id);
@@ -40,6 +43,7 @@ public class CharacterController {
     }
 
     @GetMapping("/filter")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROL_ADMIN')")
     public ResponseEntity<List<CharacterDTO>> getByFilters(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer age,
@@ -51,6 +55,7 @@ public class CharacterController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CharacterDTO> createChar(@Valid @RequestBody CharacterDTO charDTO) {
 
         CharacterDTO dtoResult = characterService.createCharacter(charDTO);
@@ -59,6 +64,7 @@ public class CharacterController {
     }
 
     @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CharacterDTO> updateChar(@PathVariable Long id,@RequestBody CharacterDTO characterDTO) {
 
         CharacterDTO dto = characterService.updateCharacter(id,characterDTO);
@@ -67,6 +73,7 @@ public class CharacterController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteChar(@PathVariable Long id) {
 
         characterService.deleteCharacter(id);

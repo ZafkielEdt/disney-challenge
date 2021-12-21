@@ -5,6 +5,7 @@ import com.challenge.disney.services.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,6 +31,7 @@ public class GenreController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<GenreDTO> createGenre(@Valid @RequestBody GenreDTO genreDTO) {
 
         GenreDTO dtoResult = genreService.createGenre(genreDTO);
@@ -38,6 +40,7 @@ public class GenreController {
     }
 
     @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<GenreDTO> updateGenre(@PathVariable Long id, @Valid @RequestBody GenreDTO dto) {
 
         GenreDTO dtoResult = genreService.updateGenre(id, dto);
@@ -46,6 +49,7 @@ public class GenreController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteGenre(@PathVariable Long id) {
 
         genreService.deleteGenre(id);

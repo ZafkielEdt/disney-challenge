@@ -6,6 +6,7 @@ import com.challenge.disney.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ public class MovieController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<List<MovieDTOBasic>> getAllMovies() {
 
         List<MovieDTOBasic> dtos = movieService.getAllMovies();
@@ -32,6 +34,7 @@ public class MovieController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<MovieDTO> getMovie(@PathVariable Long id) {
 
         MovieDTO dtoResult = movieService.getMovie(id);
@@ -40,6 +43,7 @@ public class MovieController {
     }
 
     @GetMapping("/filter")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<List<MovieDTO>> getByFilters(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) Set<Long> genreId,
@@ -51,6 +55,7 @@ public class MovieController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<MovieDTO> createMovie(@Valid @RequestBody MovieDTO movieDTO) {
 
         MovieDTO dtoResult = movieService.createMovie(movieDTO);
@@ -59,6 +64,7 @@ public class MovieController {
     }
 
     @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<MovieDTO> updateMovie(@PathVariable Long id,@Valid @RequestBody MovieDTO movieDTO) {
 
         MovieDTO dtoResult = movieService.updateMovie(id,movieDTO);
@@ -67,6 +73,7 @@ public class MovieController {
     }
 
     @DeleteMapping("delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
 
         movieService.deleteMovie(id);
@@ -75,6 +82,7 @@ public class MovieController {
     }
 
     @PutMapping("/link-char")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<MovieDTO> linkCharacter(@RequestParam Set<Long> idChar, @RequestParam Long idMovie) {
 
         MovieDTO dto = movieService.linkCharacter(idChar, idMovie);
@@ -83,6 +91,7 @@ public class MovieController {
     }
 
     @PutMapping("/link-genre")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<MovieDTO> linkGenre(@RequestParam Set<Long> idGenre, @RequestParam Long idMovie) {
 
         MovieDTO dto = movieService.linkGenre(idGenre,idMovie);
