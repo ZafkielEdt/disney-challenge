@@ -7,6 +7,9 @@
 * JWT for authentication
 * SendGrid for email
 
+## Diagram UML
+<img src="https://i.imgur.com/DYuGbUI.png" width="50%" alt="uml image">
+
 ## Previous Configuration
 Before start the project, replace the next variables
 in *"\src\main\resources\application.properties"*.
