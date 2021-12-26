@@ -30,7 +30,7 @@ public class GenreServiceImpl implements GenreService {
     // Create
     @Override
     @Transactional
-    public GenreDTO createGenre(GenreDTO genreDTO) {
+    public GenreDTO createGenre(GenreDTO genreDTO) throws ServiceError {
 
         Boolean exist = genreRepository.existsGenreModelByName(genreDTO.getName());
 
@@ -48,9 +48,13 @@ public class GenreServiceImpl implements GenreService {
     // Get All Genres
     @Override
     @Transactional(readOnly = true)
-    public List<GenreDTO> getAllGenres() {
+    public List<GenreDTO> getAllGenres() throws ServiceError {
 
         List<GenreEntity> entities = genreRepository.findAll();
+
+        if(entities.isEmpty()) {
+            throw new ServiceError("Any genre found");
+        }
 
         return genreMapper.convertEntityList2DTOList(entities);
     }
@@ -58,7 +62,7 @@ public class GenreServiceImpl implements GenreService {
     // Update
     @Override
     @Transactional
-    public GenreDTO updateGenre(Long id, GenreDTO dto) {
+    public GenreDTO updateGenre(Long id, GenreDTO dto) throws ServiceError {
 
         Optional<GenreEntity> entity = genreRepository.findById(id);
 
@@ -78,7 +82,7 @@ public class GenreServiceImpl implements GenreService {
     // Delete
     @Override
     @Transactional
-    public void deleteGenre(Long id) {
+    public void deleteGenre(Long id) throws ServiceError {
 
         Optional<GenreEntity> entity = genreRepository.findById(id);
 
@@ -90,6 +94,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<GenreEntity> findById(Set<Long> idGenre) {
 
         return genreRepository.findAllById(idGenre);

@@ -38,7 +38,7 @@ public class CharacterServiceImpl implements CharacterService {
     // Create
     @Override
     @Transactional
-    public CharacterDTO createCharacter(CharacterDTO charDTO) {
+    public CharacterDTO createCharacter(CharacterDTO charDTO) throws ServiceError {
 
         Boolean exist = characterRepository.existsCharacterModelByName(charDTO.getName());
 
@@ -56,9 +56,13 @@ public class CharacterServiceImpl implements CharacterService {
     // Get All Characters
     @Override
     @Transactional(readOnly = true)
-    public List<CharacterDTOBasic> getAllCharacters() {
+    public List<CharacterDTOBasic> getAllCharacters() throws ServiceError {
 
         List<CharacterEntity> entities = characterRepository.findAll();
+
+        if(entities.isEmpty()) {
+            throw new ServiceError("Any character found");
+        }
 
         List<CharacterDTOBasic> dtoBasics = mapper.convertEntityList2DTOBasicList(entities);
 
@@ -68,7 +72,7 @@ public class CharacterServiceImpl implements CharacterService {
     // Get one character
     @Override
     @Transactional(readOnly = true)
-    public CharacterDTO getCharacter(Long id) {
+    public CharacterDTO getCharacter(Long id) throws ServiceError {
 
         Optional<CharacterEntity> entity = characterRepository.findById(id);
 
@@ -84,7 +88,7 @@ public class CharacterServiceImpl implements CharacterService {
     // Update
     @Override
     @Transactional
-    public CharacterDTO updateCharacter(Long id, CharacterDTO characterDTO) {
+    public CharacterDTO updateCharacter(Long id, CharacterDTO characterDTO) throws ServiceError {
 
         Optional<CharacterEntity> entity = characterRepository.findById(id);
 
@@ -105,7 +109,7 @@ public class CharacterServiceImpl implements CharacterService {
     // Delete
     @Override
     @Transactional
-    public void deleteCharacter(Long id) {
+    public void deleteCharacter(Long id) throws ServiceError {
 
         Optional<CharacterEntity> entity = characterRepository.findById(id);
 
@@ -117,7 +121,7 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CharacterDTO> getByFilters(String name, Integer age, Set<Long> idMovie) {
+    public List<CharacterDTO> getByFilters(String name, Integer age, Set<Long> idMovie) throws ServiceError {
 
         CharacterFilterDTO filtersDTO = new CharacterFilterDTO(name, age, idMovie);
 
@@ -131,6 +135,7 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CharacterEntity> getById(Set<Long> idChar) {
 
         return characterRepository.findAllById(idChar);

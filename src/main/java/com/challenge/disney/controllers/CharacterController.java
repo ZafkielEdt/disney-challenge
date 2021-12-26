@@ -25,7 +25,7 @@ public class CharacterController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_USER','ROL_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<List<CharacterDTOBasic>> getAllCharacters() {
 
         List<CharacterDTOBasic> characters = characterService.getAllCharacters();
@@ -34,7 +34,7 @@ public class CharacterController {
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAnyRole('ROLE_USER','ROL_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<CharacterDTO> getCharacter(@PathVariable Long id) {
 
         CharacterDTO dtoResult = characterService.getCharacter(id);
@@ -43,7 +43,7 @@ public class CharacterController {
     }
 
     @GetMapping("/filter")
-    @PreAuthorize("hasAnyRole('ROLE_USER','ROL_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<List<CharacterDTO>> getByFilters(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer age,

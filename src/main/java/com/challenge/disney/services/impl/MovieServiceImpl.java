@@ -50,7 +50,7 @@ public class MovieServiceImpl implements MovieService {
     // Create
     @Override
     @Transactional
-    public MovieDTO createMovie(MovieDTO movieDTO) {
+    public MovieDTO createMovie(MovieDTO movieDTO) throws ServiceError {
 
         Boolean exist = movieRepository.existsMovieModelByTitle(movieDTO.getTitle());
 
@@ -68,9 +68,13 @@ public class MovieServiceImpl implements MovieService {
     // Get All Movies
     @Override
     @Transactional(readOnly = true)
-    public List<MovieDTOBasic> getAllMovies() {
+    public List<MovieDTOBasic> getAllMovies() throws ServiceError {
 
         List<MovieEntity> entities = movieRepository.findAll();
+
+        if(entities.isEmpty()) {
+            throw new ServiceError("Any movie found");
+        }
 
         return movieMapper.convertEntityList2DTOBasicList(entities);
     }
@@ -78,7 +82,7 @@ public class MovieServiceImpl implements MovieService {
     // Get one Movie
     @Override
     @Transactional(readOnly = true)
-    public MovieDTO getMovie(Long id) {
+    public MovieDTO getMovie(Long id) throws ServiceError {
 
         Optional<MovieEntity> entity = movieRepository.findById(id);
 
@@ -94,7 +98,7 @@ public class MovieServiceImpl implements MovieService {
     // Update
     @Override
     @Transactional
-    public MovieDTO updateMovie(Long id, MovieDTO movieDTO) {
+    public MovieDTO updateMovie(Long id, MovieDTO movieDTO) throws ServiceError {
 
         Optional<MovieEntity> entity = movieRepository.findById(id);
 
@@ -114,7 +118,7 @@ public class MovieServiceImpl implements MovieService {
     // Delete
     @Override
     @Transactional
-    public void deleteMovie(Long id) {
+    public void deleteMovie(Long id) throws ServiceError {
 
         Optional<MovieEntity> entity = movieRepository.findById(id);
 
@@ -128,7 +132,7 @@ public class MovieServiceImpl implements MovieService {
     // Get By Filters
     @Override
     @Transactional(readOnly = true)
-    public List<MovieDTO> getByFilters(String title, Set<Long> genre, String order) {
+    public List<MovieDTO> getByFilters(String title, Set<Long> genre, String order) throws ServiceError {
 
         MovieFilterDTO filterDTO = new MovieFilterDTO(title,genre,order);
 
@@ -144,7 +148,7 @@ public class MovieServiceImpl implements MovieService {
     // Link Character
     @Override
     @Transactional
-    public MovieDTO linkCharacter(Set<Long> idChar, Long idMovie) {
+    public MovieDTO linkCharacter(Set<Long> idChar, Long idMovie) throws ServiceError {
 
         List<CharacterEntity> characterEntities = characterService.getById(idChar);
 
@@ -165,7 +169,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
-    public MovieDTO linkGenre(Set<Long> idGenre, Long idMovie) {
+    public MovieDTO linkGenre(Set<Long> idGenre, Long idMovie) throws ServiceError {
 
         List<GenreEntity> genreEntities = genreService.findById(idGenre);
 
