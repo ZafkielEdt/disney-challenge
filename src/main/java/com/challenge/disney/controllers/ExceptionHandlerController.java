@@ -26,7 +26,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         ApiErrorDTO errorDTO = new ApiErrorDTO(
                 HttpStatus.BAD_REQUEST,
                 ex.getMessage(),
-                Arrays.asList("Service Error")
+            List.of("Service Error")
         );
 
         return handleExceptionInternal(ex, errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
