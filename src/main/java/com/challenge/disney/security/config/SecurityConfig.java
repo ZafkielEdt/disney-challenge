@@ -23,57 +23,59 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserServiceImpl userService;
+  private final UserServiceImpl userService;
 
-    private final BCryptPasswordEncoder encoder;
+  private final BCryptPasswordEncoder encoder;
 
-    private final JwtRequestFilter jwtRequestFilter;
+  private final JwtRequestFilter jwtRequestFilter;
 
-    @Autowired
-    public SecurityConfig(UserServiceImpl userService,
-                          BCryptPasswordEncoder encoder,
-                          JwtRequestFilter jwtRequestFilter) {
-        this.userService = userService;
-        this.encoder = encoder;
-        this.jwtRequestFilter = jwtRequestFilter;
-    }
+  @Autowired
+  public SecurityConfig(UserServiceImpl userService,
+      BCryptPasswordEncoder encoder,
+      JwtRequestFilter jwtRequestFilter) {
+    this.userService = userService;
+    this.encoder = encoder;
+    this.jwtRequestFilter = jwtRequestFilter;
+  }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(encoder);
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userService).passwordEncoder(encoder);
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .cors().and()
-                .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .anyRequest().authenticated().and().sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+        .csrf().disable()
+        .cors().and()
+        .authorizeRequests()
+        .antMatchers("/auth/login", "/auth/register", "/auth/get-user")
+        .permitAll()
+        .antMatchers(AUTH_WHITELIST).permitAll()
+        .anyRequest().authenticated().and().sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
+    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+  }
 
-    @Override
-    @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
+  @Override
+  @Bean
+  protected AuthenticationManager authenticationManager() throws Exception {
+    return super.authenticationManager();
+  }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;
-    }
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+    return source;
+  }
 
-    private static final String[] AUTH_WHITELIST = {
-        "/authenticate",
-        "/swagger-resources/**",
-        "/swagger-ui/**",
-        "/v3/api-docs",
-        "/webjars/**"
-    };
+  private static final String[] AUTH_WHITELIST = {
+      "/authenticate",
+      "/swagger-resources/**",
+      "/swagger-ui/**",
+      "/v3/api-docs",
+      "/webjars/**"
+  };
 }
