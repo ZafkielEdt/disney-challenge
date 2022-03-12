@@ -51,7 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/auth/login", "/auth/register", "/auth/get-user")
         .permitAll()
-        .antMatchers(AUTH_WHITELIST).permitAll()
         .anyRequest().authenticated().and().sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -70,12 +69,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
     return source;
   }
-
-  private static final String[] AUTH_WHITELIST = {
-      "/authenticate",
-      "/swagger-resources/**",
-      "/swagger-ui/**",
-      "/v3/api-docs",
-      "/webjars/**"
-  };
 }
