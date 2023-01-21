@@ -6,7 +6,7 @@ public enum RoleType {
 
   private static final String ROLE_PREFIX = "ROLE_";
 
-  private String getFullRoleName() {
+  public String getFullRoleName() {
     return ROLE_PREFIX + this.name();
   }
 }
