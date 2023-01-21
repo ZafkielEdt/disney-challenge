@@ -17,7 +17,7 @@ public class GlobalHandlerException {
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(EmailAlreadyExistsException.class)
+  @ExceptionHandler(UsernameAlreadyExistsException.class)
   public ResponseEntity<ErrorResponse> handleUsernameAlreadyExistsException(
       UsernameAlreadyExistsException e) {
     ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
