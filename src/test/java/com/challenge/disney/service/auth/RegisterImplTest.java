@@ -5,15 +5,20 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import com.challenge.disney.config.security.RoleType;
 import com.challenge.disney.exception.EmailAlreadyExistsException;
 import com.challenge.disney.exception.UsernameAlreadyExistsException;
 import com.challenge.disney.mapper.UserMapper;
+import com.challenge.disney.model.entity.Role;
 import com.challenge.disney.model.entity.User;
 import com.challenge.disney.model.request.RegisterRequest;
 import com.challenge.disney.model.response.RegisterResponse;
+import com.challenge.disney.repository.RoleRepository;
 import com.challenge.disney.repository.UserRepository;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Optional;
+import javax.management.relation.RoleNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,13 +38,18 @@ class RegisterImplTest {
   @Mock
   private BCryptPasswordEncoder encoder;
 
+  @Mock
+  private RoleRepository roleRepository;
+
   @InjectMocks
   private RegisterImpl register;
 
   @Test
-  void register() throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
+  void register()
+      throws UsernameAlreadyExistsException, EmailAlreadyExistsException, RoleNotFoundException {
     when(userRepository.existsByEmail(anyString())).thenReturn(false);
     when(userRepository.existsByUsername(anyString())).thenReturn(false);
+    when(roleRepository.findByName(anyString())).thenReturn(Optional.of(buildRole()));
     when(userMapper.map(any(RegisterRequest.class))).thenReturn(buildUser());
     when(userRepository.save(any(User.class))).thenReturn(buildUser());
     when(userMapper.map(any(User.class))).thenReturn(buildResponse());
@@ -52,6 +62,15 @@ class RegisterImplTest {
     assertNotNull(response.getEmail());
     assertEquals("Dalet", response.getUsername());
     assertEquals("dalet@lorem.com", response.getEmail());
+  }
+
+  private Role buildRole() {
+    Role role = new Role();
+    role.setId(1L);
+    role.setName(RoleType.USER.getFullRoleName());
+    role.setDescription(RoleType.USER.name());
+    role.setTimestamp(Timestamp.from(Instant.now()));
+    return role;
   }
 
   private RegisterRequest buildRequest() {
