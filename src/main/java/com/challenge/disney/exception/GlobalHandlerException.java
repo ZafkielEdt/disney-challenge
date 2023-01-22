@@ -24,6 +24,12 @@ public class GlobalHandlerException {
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler(InsufficientPermissionException.class)
+  public ResponseEntity<ErrorResponse> handleInsufficientPermissionException(InsufficientPermissionException e) {
+    ErrorResponse errorResponse = buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+  }
+
   private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message) {
     ErrorResponse error = new ErrorResponse();
     error.setStatus(httpStatus.value());
