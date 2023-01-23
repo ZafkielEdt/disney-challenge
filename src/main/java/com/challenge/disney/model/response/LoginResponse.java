@@ -7,7 +7,15 @@ import lombok.Setter;
 @Setter
 public class LoginResponse {
 
-  private String email;
+  private String username;
 
   private String token;
+
+  public LoginResponse() {
+  }
+
+  public LoginResponse(String username, String token) {
+    this.username = username;
+    this.token = token;
+  }
 }
