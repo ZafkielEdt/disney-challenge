@@ -1,22 +1,23 @@
 package com.challenge.disney.service.auth;
 
+import static com.challenge.disney.common.AbstractAuthUtils.buildRegisterRequest;
+import static com.challenge.disney.common.AbstractAuthUtils.buildRegisterResponse;
+import static com.challenge.disney.common.AbstractRoleUtils.buildRole;
+import static com.challenge.disney.common.AbstractUserUtils.buildUser;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.challenge.disney.config.security.RoleType;
+
 import com.challenge.disney.exception.EmailAlreadyExistsException;
 import com.challenge.disney.exception.UsernameAlreadyExistsException;
 import com.challenge.disney.mapper.UserMapper;
-import com.challenge.disney.model.entity.Role;
 import com.challenge.disney.model.entity.User;
 import com.challenge.disney.model.request.RegisterRequest;
 import com.challenge.disney.model.response.RegisterResponse;
 import com.challenge.disney.repository.RoleRepository;
 import com.challenge.disney.repository.UserRepository;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Optional;
 import javax.management.relation.RoleNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -45,17 +46,17 @@ class RegisterImplTest {
   private RegisterImpl register;
 
   @Test
-  void register()
+  void registerShouldReturnRegisterResponse()
       throws UsernameAlreadyExistsException, EmailAlreadyExistsException, RoleNotFoundException {
     when(userRepository.existsByEmail(anyString())).thenReturn(false);
     when(userRepository.existsByUsername(anyString())).thenReturn(false);
     when(roleRepository.findByName(anyString())).thenReturn(Optional.of(buildRole()));
     when(userMapper.map(any(RegisterRequest.class))).thenReturn(buildUser());
     when(userRepository.save(any(User.class))).thenReturn(buildUser());
-    when(userMapper.map(any(User.class))).thenReturn(buildResponse());
+    when(userMapper.map(any(User.class))).thenReturn(buildRegisterResponse());
 
 
-    RegisterResponse response = register.register(buildRequest());
+    RegisterResponse response = register.register(buildRegisterRequest());
 
     assertNotNull(response);
     assertNotNull(response.getUsername());
@@ -64,38 +65,17 @@ class RegisterImplTest {
     assertEquals("dalet@lorem.com", response.getEmail());
   }
 
-  private Role buildRole() {
-    Role role = new Role();
-    role.setId(1L);
-    role.setName(RoleType.USER.getFullRoleName());
-    role.setDescription(RoleType.USER.name());
-    role.setTimestamp(Timestamp.from(Instant.now()));
-    return role;
-  }
+  @Test
+  void registerShouldThrowEmailAlreadyExistsException() {
+    when(userRepository.existsByEmail(anyString())).thenReturn(true);
 
-  private RegisterRequest buildRequest() {
-    RegisterRequest request = new RegisterRequest();
-    request.setUsername("Dalet");
-    request.setEmail("dalet@lorem.com");
-    request.setPassword("12345678");
-    return request;
-  }
+    EmailAlreadyExistsException exception = assertThrows(EmailAlreadyExistsException.class,
+        () -> {
+          RegisterResponse response = register.register(buildRegisterRequest());
+        });
 
-  private RegisterResponse buildResponse() {
-    RegisterResponse response = new RegisterResponse();
-    response.setUsername("Dalet");
-    response.setEmail("dalet@lorem.com");
-    return response;
-  }
-
-  private User buildUser() {
-    User user = new User();
-    user.setId(1L);
-    user.setUsername("Dalet");
-    user.setEmail("dalet@lorem.com");
-    user.setPassword("12345678");
-    user.setTimestamp(Timestamp.from(Instant.now()));
-    user.setSoftDelete(false);
-    return user;
+    assertNotNull(exception);
+    assertEquals(EmailAlreadyExistsException.class, exception.getClass());
+    assertEquals("Email already exists", exception.getMessage());
   }
 }
