@@ -38,6 +38,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         System.err.println("UNAUTHORIZED");
       }
     }
+
+    filterChain.doFilter(request, response);
   }
 
   private void setAuthentication(String username, String token) throws Exception {
