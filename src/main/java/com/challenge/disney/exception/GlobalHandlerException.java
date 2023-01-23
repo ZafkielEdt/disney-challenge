@@ -26,6 +26,12 @@ public class GlobalHandlerException {
 
   @ExceptionHandler(InsufficientPermissionException.class)
   public ResponseEntity<ErrorResponse> handleInsufficientPermissionException(InsufficientPermissionException e) {
+    ErrorResponse errorResponse = buildErrorResponse(HttpStatus.FORBIDDEN, e.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+  }
+
+  @ExceptionHandler(InvalidCredentialsException.class)
+  public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException e) {
     ErrorResponse errorResponse = buildErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
     return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
   }
