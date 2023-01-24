@@ -23,6 +23,13 @@ public abstract class AbstractAuthUtils {
     return request;
   }
 
+  public static LoginRequest buildInvalidLoginRequest() {
+    LoginRequest request = new LoginRequest();
+    request.setUsername("Dale");
+    request.setPassword("1234567");
+    return request;
+  }
+
   public static RegisterResponse buildRegisterResponse() {
     RegisterResponse response = new RegisterResponse();
     response.setUsername("Dalet");

@@ -33,7 +33,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     if (!Objects.isNull(token)) {
       try {
         String username = jwtUtils.getUsernameFromToken(token);
-        setAuthentication(username, token);
+        setAuthentication(username, token, request);
       } catch (Exception e) {
         System.err.println("UNAUTHORIZED");
       }
@@ -42,7 +42,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     filterChain.doFilter(request, response);
   }
 
-  private void setAuthentication(String username, String token) throws Exception {
+  private void setAuthentication(String username, String token, HttpServletRequest request) throws Exception {
 
     if (Objects.isNull(username) && !jwtUtils.isValidToken(token)) {
       throw new InsufficientPermissionException(
@@ -55,6 +55,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             user.getUsername(),
             null,
             user.getAuthorities());
-    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+    if (SecurityContextHolder.getContext() == null) {
+      SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+    }
   }
 }

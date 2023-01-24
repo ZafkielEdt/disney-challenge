@@ -8,6 +8,7 @@ import com.challenge.disney.model.response.LoginResponse;
 import com.challenge.disney.repository.UserRepository;
 import com.challenge.disney.service.abstraction.Login;
 import java.util.Collection;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,11 +28,18 @@ public class LoginImpl implements Login {
   @Override
   public LoginResponse login(LoginRequest request) throws InvalidCredentialsException {
 
-    User user = userRepository.findByUsername(request.getUsername())
-        .orElseThrow(() -> new InvalidCredentialsException("Invalid username or password"));
+    Optional<User> optionalUser = userRepository.findByUsername(request.getUsername());
 
-//    authenticationManager.authenticate(
-//        new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+    if (optionalUser.isEmpty()) {
+      throw new InvalidCredentialsException("Invalid username or password");
+    }
+
+
+    authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+    User user = optionalUser.get();
 
     return new LoginResponse(user.getUsername(),
         jwtUtils.generateToken(user.getUsername(),
