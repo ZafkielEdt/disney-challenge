@@ -36,6 +36,12 @@ public class GlobalHandlerException {
     return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
   }
 
+  @ExceptionHandler(ExternalServiceException.class)
+  public ResponseEntity<ErrorResponse> handleExternalServiceException(ExternalServiceException e) {
+    ErrorResponse errorResponse = buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
   private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message) {
     ErrorResponse error = new ErrorResponse();
     error.setStatus(httpStatus.value());
