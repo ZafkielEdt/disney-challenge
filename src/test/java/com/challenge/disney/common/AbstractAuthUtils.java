@@ -9,31 +9,20 @@ public abstract class AbstractAuthUtils {
 
 
   public static RegisterRequest buildRegisterRequest() {
-    RegisterRequest request = new RegisterRequest();
-    request.setUsername("Dalet");
-    request.setEmail("dalet@lorem.com");
-    request.setPassword("12345678");
+    RegisterRequest request = new RegisterRequest(
+        "Dalet",
+        "dalet@lorem.com",
+        "12345678");
     return request;
   }
 
   public static LoginRequest buildLoginRequest() {
-    LoginRequest request = new LoginRequest();
-    request.setUsername("Dalet");
-    request.setPassword("12345678");
-    return request;
-  }
-
-  public static LoginRequest buildInvalidLoginRequest() {
-    LoginRequest request = new LoginRequest();
-    request.setUsername("Dale");
-    request.setPassword("1234567");
+    LoginRequest request = new LoginRequest("Dalet", "12345678");
     return request;
   }
 
   public static RegisterResponse buildRegisterResponse() {
-    RegisterResponse response = new RegisterResponse();
-    response.setUsername("Dalet");
-    response.setEmail("dalet@lorem.com");
+    RegisterResponse response = new RegisterResponse("Dalet", "dalet@lorem.com");
     return response;
   }
 }
