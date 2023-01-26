@@ -41,7 +41,7 @@ public class JwtUtils {
     String username = null;
 
     try {
-      final Claims claims = Jwts.parserBuilder().require("username",AUTH_HEADER_USERNAME).setSigningKey(Keys.hmacShaKeyFor(SIGNING_KEY.getBytes())).build()
+      final Claims claims = Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(SIGNING_KEY.getBytes())).build()
           .parseClaimsJws(token).getBody();
       username = String.valueOf(claims.get(AUTH_HEADER_USERNAME));
     } catch (InvalidClaimException e) {

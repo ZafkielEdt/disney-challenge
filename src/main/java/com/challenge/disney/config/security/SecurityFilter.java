@@ -25,7 +25,10 @@ public class SecurityFilter {
         .authorizeHttpRequests(auth ->
             auth.requestMatchers(HttpMethod.POST, "/api/v2/register").permitAll())
         .authorizeHttpRequests(auth ->
-            auth.requestMatchers(HttpMethod.POST, "/api/v2/login").permitAll());
+            auth.requestMatchers(HttpMethod.POST, "/api/v2/login").permitAll())
+        .authorizeHttpRequests(auth ->
+            auth.requestMatchers(HttpMethod.POST, "/api/v2/characters")
+                .hasAnyRole(RoleType.ADMIN.getFullRoleName(), RoleType.USER.getFullRoleName()));
     return httpSecurity.build();
   }
 }

@@ -35,6 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String username = jwtUtils.getUsernameFromToken(token);
         setAuthentication(username, token, request);
       } catch (Exception e) {
+        System.out.println(e);
         System.err.println("UNAUTHORIZED");
       }
     }

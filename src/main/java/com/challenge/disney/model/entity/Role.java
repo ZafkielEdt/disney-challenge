@@ -3,6 +3,7 @@ package com.challenge.disney.model.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +32,7 @@ public class Role {
   @Column(name = "DESCRIPTION", nullable = false)
   private String description;
 
-  @ManyToMany(mappedBy = "roles", cascade = CascadeType.PERSIST)
+  @ManyToMany(mappedBy = "roles", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private Set<User> users;
 
   @CreationTimestamp

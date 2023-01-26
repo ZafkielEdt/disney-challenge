@@ -3,6 +3,7 @@ package com.challenge.disney.model.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -51,7 +52,7 @@ public class User implements UserDetails {
   @JoinTable(name = "USER_ROL",
       joinColumns = {@JoinColumn(name = "USER_ID", nullable = false)},
       inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", nullable = false)})
-  @ManyToMany(cascade = CascadeType.PERSIST)
+  @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private Set<Role> roles;
 
   @Override
