@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.challenge.disney.common.AbstractIntegrationAuthTestUtils;
 import com.challenge.disney.exception.ErrorResponse;
-import com.challenge.disney.model.request.RegisterRequest;
-import com.challenge.disney.model.response.RegisterResponse;
+import com.challenge.disney.model.request.auth.RegisterRequest;
+import com.challenge.disney.model.response.auth.RegisterResponse;
 import java.net.URISyntaxException;
 import java.util.Objects;
 import org.junit.jupiter.api.Test;

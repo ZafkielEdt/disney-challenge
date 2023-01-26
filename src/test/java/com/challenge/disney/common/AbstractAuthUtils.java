@@ -1,9 +1,9 @@
 package com.challenge.disney.common;
 
 
-import com.challenge.disney.model.request.LoginRequest;
-import com.challenge.disney.model.request.RegisterRequest;
-import com.challenge.disney.model.response.RegisterResponse;
+import com.challenge.disney.model.request.auth.LoginRequest;
+import com.challenge.disney.model.request.auth.RegisterRequest;
+import com.challenge.disney.model.response.auth.RegisterResponse;
 
 public abstract class AbstractAuthUtils {
 

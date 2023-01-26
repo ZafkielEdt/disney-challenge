@@ -2,9 +2,9 @@ package com.challenge.disney.controller.auth;
 
 import com.challenge.disney.exception.EmailAlreadyExistsException;
 import com.challenge.disney.exception.UsernameAlreadyExistsException;
-import com.challenge.disney.model.request.RegisterRequest;
-import com.challenge.disney.model.response.RegisterResponse;
-import com.challenge.disney.service.abstraction.Register;
+import com.challenge.disney.model.request.auth.RegisterRequest;
+import com.challenge.disney.model.response.auth.RegisterResponse;
+import com.challenge.disney.service.abstraction.auth.Register;
 import javax.management.relation.RoleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

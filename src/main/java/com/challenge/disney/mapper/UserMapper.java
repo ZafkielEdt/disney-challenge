@@ -1,8 +1,8 @@
 package com.challenge.disney.mapper;
 
 import com.challenge.disney.model.entity.User;
-import com.challenge.disney.model.request.RegisterRequest;
-import com.challenge.disney.model.response.RegisterResponse;
+import com.challenge.disney.model.request.auth.RegisterRequest;
+import com.challenge.disney.model.response.auth.RegisterResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

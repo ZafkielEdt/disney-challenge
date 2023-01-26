@@ -1,9 +1,9 @@
 package com.challenge.disney.controller.auth;
 
 import com.challenge.disney.exception.InvalidCredentialsException;
-import com.challenge.disney.model.request.LoginRequest;
-import com.challenge.disney.model.response.LoginResponse;
-import com.challenge.disney.service.abstraction.Login;
+import com.challenge.disney.model.request.auth.LoginRequest;
+import com.challenge.disney.model.response.auth.LoginResponse;
+import com.challenge.disney.service.abstraction.auth.Login;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

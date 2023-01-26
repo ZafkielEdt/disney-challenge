@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import com.challenge.disney.common.JwtUtils;
 import com.challenge.disney.exception.InvalidCredentialsException;
-import com.challenge.disney.model.response.LoginResponse;
+import com.challenge.disney.model.response.auth.LoginResponse;
 import com.challenge.disney.repository.UserRepository;
 import java.util.Collection;
 import java.util.Optional;

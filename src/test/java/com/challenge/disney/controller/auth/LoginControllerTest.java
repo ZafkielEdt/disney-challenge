@@ -4,8 +4,8 @@ import static com.challenge.disney.common.AbstractAuthUtils.buildLoginRequest;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.challenge.disney.common.AbstractIntegrationAuthTestUtils;
-import com.challenge.disney.model.request.LoginRequest;
-import com.challenge.disney.model.response.LoginResponse;
+import com.challenge.disney.model.request.auth.LoginRequest;
+import com.challenge.disney.model.response.auth.LoginResponse;
 import java.net.URISyntaxException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

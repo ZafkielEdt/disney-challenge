@@ -1,4 +1,4 @@
-package com.challenge.disney.model.request;
+package com.challenge.disney.model.request.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
