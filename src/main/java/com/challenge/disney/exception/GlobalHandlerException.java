@@ -42,6 +42,12 @@ public class GlobalHandlerException {
     return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
+  @ExceptionHandler(CharacterAlreadyExistsException.class)
+  public ResponseEntity<ErrorResponse> handleCharacterAlreadyExistsException(CharacterAlreadyExistsException e) {
+    ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
   private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message) {
     ErrorResponse error = new ErrorResponse();
     error.setStatus(httpStatus.value());
