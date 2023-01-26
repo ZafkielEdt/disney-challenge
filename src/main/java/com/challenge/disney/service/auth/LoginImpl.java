@@ -28,7 +28,7 @@ public class LoginImpl implements Login {
   @Override
   public LoginResponse login(LoginRequest request) throws InvalidCredentialsException {
 
-    Optional<User> optionalUser = userRepository.findByUsername(request.getUsername());
+    Optional<User> optionalUser = userRepository.findByUsername(request.username());
 
 
     if (optionalUser.isEmpty()) {
@@ -37,7 +37,7 @@ public class LoginImpl implements Login {
 
 
     authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
     User user = optionalUser.get();
 

@@ -39,11 +39,11 @@ public class RegisterImpl implements Register {
   public RegisterResponse register(RegisterRequest request)
       throws EmailAlreadyExistsException, UsernameAlreadyExistsException, RoleNotFoundException {
 
-    if (userRepository.existsByEmail(request.getEmail())) {
+    if (userRepository.existsByEmail(request.email())) {
       throw new EmailAlreadyExistsException("Email already exists");
     }
 
-    if (userRepository.existsByUsername(request.getUsername())) {
+    if (userRepository.existsByUsername(request.username())) {
       throw new UsernameAlreadyExistsException("Username already exists");
     }
 
@@ -55,7 +55,7 @@ public class RegisterImpl implements Register {
     user.setRoles(Set.of(role));
     user.setSoftDelete(false);
 
-    sendRegisterEmail(request.getEmail());
+    sendRegisterEmail(request.email());
 
     return userMapper.map(userRepository.save(user));
   }
