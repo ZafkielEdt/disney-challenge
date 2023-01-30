@@ -14,10 +14,22 @@ public class DCharacterMapper {
   private final ModelMapper modelMapper;
 
   public DCharacter map(DCharacterRequest request) {
-    return modelMapper.map(request, DCharacter.class);
+    DCharacter dCharacter = new DCharacter();
+    dCharacter.setName(request.name());
+    dCharacter.setAge(request.age());
+    dCharacter.setStory(request.story());
+    dCharacter.setImage(request.image());
+    dCharacter.setWeight(request.weight());
+    return dCharacter;
   }
 
   public DCharacterResponse map(DCharacter dCharacter) {
-    return modelMapper.map(dCharacter, DCharacterResponse.class);
+    return new DCharacterResponse(
+        dCharacter.getName(),
+        dCharacter.getAge(),
+        dCharacter.getWeight(),
+        dCharacter.getStory(),
+        dCharacter.getStory()
+    );
   }
 }

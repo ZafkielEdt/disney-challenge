@@ -2,8 +2,7 @@ package com.challenge.disney.model.response.dcharacter;
 
 public record DCharacterResponse(
     String name,
-    String age,
-    String weight,
+    Long age,
+    Long weight,
     String story,
-    String image,
-    String filmOrSerie) { }
+    String image) { }
