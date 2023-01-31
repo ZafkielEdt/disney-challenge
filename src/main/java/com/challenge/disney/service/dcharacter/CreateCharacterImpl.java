@@ -6,13 +6,13 @@ import com.challenge.disney.model.entity.DCharacter;
 import com.challenge.disney.model.request.dcharacter.DCharacterRequest;
 import com.challenge.disney.model.response.dcharacter.DCharacterResponse;
 import com.challenge.disney.repository.DCharacterRepository;
-import com.challenge.disney.service.abstraction.dcharacter.Create;
+import com.challenge.disney.service.abstraction.dcharacter.CreateCharacter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CreateImpl implements Create {
+public class CreateCharacterImpl implements CreateCharacter {
 
   private final DCharacterRepository dCharacterRepository;
 

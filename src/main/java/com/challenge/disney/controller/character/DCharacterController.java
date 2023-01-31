@@ -3,7 +3,7 @@ package com.challenge.disney.controller.character;
 import com.challenge.disney.exception.CharacterAlreadyExistsException;
 import com.challenge.disney.model.request.dcharacter.DCharacterRequest;
 import com.challenge.disney.model.response.dcharacter.DCharacterResponse;
-import com.challenge.disney.service.abstraction.dcharacter.Create;
+import com.challenge.disney.service.abstraction.dcharacter.CreateCharacter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DCharacterController {
 
-  private final Create create;
+  private final CreateCharacter create;
 
   @PostMapping
   @PreAuthorize(value = "hasRole('ROLE_USER')")
