@@ -20,7 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Getter
 @Setter
-public class FilmOrSerie {
+public class FilmOrSeries {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

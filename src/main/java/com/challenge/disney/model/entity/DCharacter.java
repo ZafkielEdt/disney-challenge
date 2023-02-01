@@ -45,7 +45,7 @@ public class DCharacter {
       joinColumns = {@JoinColumn(name = "DCHARACTER_ID")},
       inverseJoinColumns = {@JoinColumn(name = "FILM_SERIE_ID")})
   @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-  private Set<FilmOrSerie> filmOrSeries;
+  private Set<FilmOrSeries> filmOrSeries;
 
   @Column(name = "TIMESTAMP")
   @CreationTimestamp

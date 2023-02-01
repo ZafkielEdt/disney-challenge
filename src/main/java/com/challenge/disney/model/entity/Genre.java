@@ -31,7 +31,7 @@ public class Genre {
   private String image;
 
   @ManyToMany(mappedBy = "genres", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-  private Set<FilmOrSerie> filmOrSeries;
+  private Set<FilmOrSeries> filmOrSeries;
 
   @Column(name = "TIMESTAMP")
   @CreationTimestamp
