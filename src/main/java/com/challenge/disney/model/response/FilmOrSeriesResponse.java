@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public record FilmOrSeriesResponse(
   String title,
-  LocalDate releaseDate,
+  String releaseDate,
   Integer rating,
   String image
 ) { }
