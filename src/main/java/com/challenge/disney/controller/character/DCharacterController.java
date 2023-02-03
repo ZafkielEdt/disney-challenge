@@ -22,7 +22,7 @@ public class DCharacterController {
   private final CreateCharacter create;
 
   @PostMapping
-  @PreAuthorize(value = "hasRole('ROLE_USER')")
+  @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
   public ResponseEntity<DCharacterResponse> create(@Valid @RequestBody DCharacterRequest request)
       throws CharacterAlreadyExistsException {
     DCharacterResponse response = create.create(request);

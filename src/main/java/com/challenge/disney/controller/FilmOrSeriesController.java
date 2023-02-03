@@ -23,7 +23,7 @@ public class FilmOrSeriesController {
 
 
   @PostMapping
-  @PreAuthorize("hasRole('ROLE_USER')")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<FilmOrSeriesResponse> create(@Valid @RequestBody FilmOrSeriesRequest request)
       throws FilmOrSeriesAlreadyExistsException {
     FilmOrSeriesResponse response = createFilmOrSeries.create(request);
