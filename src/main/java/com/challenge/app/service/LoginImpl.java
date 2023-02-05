@@ -1,6 +1,6 @@
 package com.challenge.app.service;
 
-import com.challenge.app.config.security.JwtUtils;
+import com.challenge.app.common.JwtUtils;
 import com.challenge.app.model.entity.User;
 import com.challenge.app.model.request.AuthCredentialsRequest;
 import com.challenge.app.model.response.AuthCredentialsResponse;

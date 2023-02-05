@@ -1,4 +1,4 @@
-package com.challenge.app.config.security;
+package com.challenge.app.common;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

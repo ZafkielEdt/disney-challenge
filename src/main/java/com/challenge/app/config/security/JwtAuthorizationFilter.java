@@ -1,6 +1,7 @@
 package com.challenge.app.config.security;
 
 
+import com.challenge.app.common.JwtUtils;
 import com.challenge.app.exception.InsufficientPermissionsException;
 import com.challenge.app.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
