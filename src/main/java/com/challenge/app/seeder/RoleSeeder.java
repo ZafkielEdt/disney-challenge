@@ -5,6 +5,7 @@ import com.challenge.app.model.entity.Role;
 import com.challenge.app.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,8 +15,10 @@ public class RoleSeeder implements CommandLineRunner {
   private final RoleRepository roleRepository;
 
   @Override
+  @Order(1)
   public void run(String... args) throws Exception {
-
+    createRole(RoleType.ADMIN);
+    createRole(RoleType.USER);
   }
 
   private void seedRoleTable() {
