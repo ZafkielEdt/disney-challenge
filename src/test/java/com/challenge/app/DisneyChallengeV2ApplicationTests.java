@@ -1,13 +1,13 @@
-package com.challenge.disney;
+package com.challenge.app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DisneyApplicationTests {
+class DisneyChallengeV2ApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+  @Test
+  void contextLoads() {
+  }
 
 }
