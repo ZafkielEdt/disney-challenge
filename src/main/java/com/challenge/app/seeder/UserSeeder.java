@@ -75,6 +75,7 @@ public class UserSeeder implements CommandLineRunner {
   private void createUser(String username, String email, String password,
       List<Role> role) {
     User user = new User();
+    user.setUsername(username);
     user.setEmail(email);
     user.setPassword(encoder.encode(password));
     user.setSoftDelete(false);
