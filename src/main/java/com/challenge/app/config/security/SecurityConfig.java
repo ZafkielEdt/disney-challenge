@@ -1,6 +1,6 @@
 package com.challenge.app.config.security;
 
-import com.challenge.app.service.UserDetailsImpl;
+import com.challenge.app.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-  private final UserDetailsImpl userDetails;
+  private final UserDetailsServiceImpl userDetails;
 
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
