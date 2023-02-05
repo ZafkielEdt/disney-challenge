@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -19,11 +20,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
   private final UserDetailsServiceImpl userDetails;
+  private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
       AuthenticationManager authenticationManager)
       throws Exception {
+
     return httpSecurity.
         csrf()
         .disable()
@@ -31,11 +34,10 @@ public class SecurityConfig {
         .anyRequest()
         .authenticated()
         .and()
-        .httpBasic()
-        .and()
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
+        .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }
 
