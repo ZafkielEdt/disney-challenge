@@ -17,8 +17,7 @@ public class RoleSeeder implements CommandLineRunner {
   @Override
   @Order(1)
   public void run(String... args) throws Exception {
-    createRole(RoleType.ADMIN);
-    createRole(RoleType.USER);
+    seedRoleTable();
   }
 
   private void seedRoleTable() {
