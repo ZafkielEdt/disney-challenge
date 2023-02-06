@@ -43,8 +43,14 @@ public class UserSeeder implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    createAdminUsers();
-    createStandardUsers();
+    seedUserTable();
+  }
+
+  private void seedUserTable() throws RoleNotFoundException {
+    if (userRepository.count() == 0) {
+      createAdminUsers();
+      createStandardUsers();
+    }
   }
 
   private void createAdminUsers() throws RoleNotFoundException {
