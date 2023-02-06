@@ -13,9 +13,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class JwtUtils {
 
   private final String AUTH_HEADER_PARAM_NAME = "Authorization";
