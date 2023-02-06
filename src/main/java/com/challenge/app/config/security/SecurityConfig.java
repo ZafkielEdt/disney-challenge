@@ -4,6 +4,7 @@ import com.challenge.app.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -31,8 +32,10 @@ public class SecurityConfig {
     return httpSecurity.
         csrf()
         .disable()
-        .authorizeHttpRequests().anyRequest().permitAll()
-        .and()
+        .authorizeHttpRequests(
+            auth -> auth.requestMatchers(HttpMethod.POST, "/api/v2/login").permitAll())
+        .authorizeHttpRequests(
+            auth -> auth.requestMatchers(HttpMethod.POST, "/api/v2/register").permitAll())
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
