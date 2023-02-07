@@ -41,7 +41,7 @@ public class User implements UserDetails {
   private String password;
 
   @Column(name = "ROLE_ID", nullable = false)
-  @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+  @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   private List<Role> roles;
 
   @CreationTimestamp
