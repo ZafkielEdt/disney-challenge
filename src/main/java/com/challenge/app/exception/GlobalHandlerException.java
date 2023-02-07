@@ -23,6 +23,12 @@ public class GlobalHandlerException {
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler(GenreAlreadyExistsException.class)
+  public ResponseEntity<ErrorResponse> handleGenreAlreadyExistsException(GenreAlreadyExistsException e) {
+    ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
   private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message) {
     return new ErrorResponse(
         httpStatus.value(),
