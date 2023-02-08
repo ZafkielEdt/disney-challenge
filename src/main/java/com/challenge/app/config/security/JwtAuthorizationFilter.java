@@ -3,6 +3,7 @@ package com.challenge.app.config.security;
 
 import com.challenge.app.common.JwtUtils;
 import com.challenge.app.exception.InsufficientPermissionsException;
+import com.challenge.app.model.entity.User;
 import com.challenge.app.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,7 +14,6 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -35,16 +35,17 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
       try {
         String username = jwtUtils.getUsernameFromToken(token);
         if (!Objects.isNull(username) && jwtUtils.isValidToken(token)) {
-          UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+          User user = (User) userDetailsService.loadUserByUsername(username);
           UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-              userDetails.getUsername(), null, userDetails.getAuthorities());
+              user.getUsername(), null, user.getAuthorities());
 
           SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
-          throw new InsufficientPermissionsException("Access denied. Please, try to login again or contact your admin.");
+          throw new InsufficientPermissionsException(
+              "Access denied. Please, try to login again or contact your admin.");
         }
       } catch (Exception e) {
-        ErrorResponseUtils.setCustomResponse(response);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       }
     }
 
