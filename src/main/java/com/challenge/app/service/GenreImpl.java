@@ -61,8 +61,11 @@ public class GenreImpl implements CreateGenre, GetGenre, UpdateGenre, DeleteGenr
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(Long id) throws GenreNotFoundException {
+    Genre genre = genreRepository.findById(id)
+        .orElseThrow(() -> new GenreNotFoundException("Genre not found"));
 
+    genreRepository.delete(genre);
   }
 
   private void updateValues(Genre genre, GenreRequest genreRequest) {
