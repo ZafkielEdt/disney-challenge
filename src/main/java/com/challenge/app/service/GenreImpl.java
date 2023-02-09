@@ -50,12 +50,27 @@ public class GenreImpl implements CreateGenre, GetGenre, UpdateGenre, DeleteGenr
   }
 
   @Override
-  public GenreResponse update(Long id, GenreRequest genreRequest) {
-    return null;
+  public GenreResponse update(Long id, GenreRequest genreRequest) throws GenreNotFoundException {
+
+    Genre genre = genreRepository.findById(id)
+        .orElseThrow(() -> new GenreNotFoundException("Genre not found"));
+
+    updateValues(genre, genreRequest);
+
+    return genreMapper.map(genre);
   }
 
   @Override
   public void delete(Long id) {
 
+  }
+
+  private void updateValues(Genre genre, GenreRequest genreRequest) {
+    if(!Objects.isNull(genreRequest.name())) {
+      genre.setName(genreRequest.name());
+    }
+    if(!Objects.isNull(genreRequest.image())) {
+      genre.setImage(genreRequest.image());
+    }
   }
 }
