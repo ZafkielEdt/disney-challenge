@@ -6,13 +6,16 @@ import com.challenge.app.model.request.GenreRequest;
 import com.challenge.app.model.response.GenreResponse;
 import com.challenge.app.service.abstraction.CreateGenre;
 import com.challenge.app.service.abstraction.GetGenre;
+import com.challenge.app.service.abstraction.UpdateGenre;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +27,7 @@ public class GenreController {
 
   private final CreateGenre createGenre;
   private final GetGenre getGenre;
+  private final UpdateGenre updateGenre;
 
   @PostMapping
   public ResponseEntity<GenreResponse> create(@Valid @RequestBody GenreRequest request)
@@ -36,5 +40,12 @@ public class GenreController {
   public ResponseEntity<List<GenreResponse>> get() throws GenreNotFoundException {
     List<GenreResponse> genreResponses = getGenre.getAll();
     return ResponseEntity.ok().body(genreResponses);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<GenreResponse> update(@PathVariable(value = "id") Long id, @Valid @RequestBody GenreRequest request)
+      throws GenreNotFoundException {
+    GenreResponse response = updateGenre.update(id, request);
+    return ResponseEntity.ok(response);
   }
 }
