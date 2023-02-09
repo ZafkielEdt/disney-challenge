@@ -31,7 +31,8 @@ public class SecurityConfig {
                     PATH + "/register").permitAll())
         .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST,
                 "/api/v2/genres").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.GET, "/api/v2/genres").hasAnyRole("USER", "ADMIN"))
+            .requestMatchers(HttpMethod.GET, "/api/v2/genres").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/api/v2/genres/{id}").hasRole("ADMIN"))
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
