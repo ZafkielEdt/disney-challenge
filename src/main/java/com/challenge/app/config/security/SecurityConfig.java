@@ -26,11 +26,12 @@ public class SecurityConfig {
         .disable()
         .authorizeHttpRequests(
             auth -> auth.requestMatchers(HttpMethod.POST,
-                PATH + "/login").permitAll()
+                    PATH + "/login").permitAll()
                 .requestMatchers(HttpMethod.POST,
                     PATH + "/register").permitAll())
         .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST,
-            "/api/v2/genres").hasRole("ADMIN"))
+                "/api/v2/genres").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/v2/genres").hasAnyRole("USER", "ADMIN"))
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
