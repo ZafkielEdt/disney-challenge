@@ -1,6 +1,7 @@
 package com.challenge.app.service;
 
 import com.challenge.app.exception.GenreAlreadyExistsException;
+import com.challenge.app.exception.GenreNotFoundException;
 import com.challenge.app.mapper.GenreMapper;
 import com.challenge.app.model.entity.Genre;
 import com.challenge.app.model.request.GenreRequest;
@@ -10,6 +11,8 @@ import com.challenge.app.service.abstraction.CreateGenre;
 import com.challenge.app.service.abstraction.DeleteGenre;
 import com.challenge.app.service.abstraction.GetGenre;
 import com.challenge.app.service.abstraction.UpdateGenre;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,13 +38,15 @@ public class GenreImpl implements CreateGenre, GetGenre, UpdateGenre, DeleteGenr
   }
 
   @Override
-  public GenreResponse get(Long id) {
-    return null;
-  }
+  public List<GenreResponse> getAll() throws GenreNotFoundException {
 
-  @Override
-  public Set<GenreResponse> getAll() {
-    return null;
+    List<Genre> genres = genreRepository.findAll();
+
+    if (Objects.isNull(genres)) {
+      throw new GenreNotFoundException("Genres not found");
+    }
+
+    return genreMapper.map(genres);
   }
 
   @Override

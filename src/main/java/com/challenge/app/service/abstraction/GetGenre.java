@@ -1,11 +1,10 @@
 package com.challenge.app.service.abstraction;
 
+import com.challenge.app.exception.GenreNotFoundException;
 import com.challenge.app.model.response.GenreResponse;
-import java.util.Set;
+import java.util.List;
 
 public interface GetGenre {
 
-  GenreResponse get(Long id);
-
-  Set<GenreResponse> getAll();
+  List<GenreResponse> getAll() throws GenreNotFoundException;
 }
