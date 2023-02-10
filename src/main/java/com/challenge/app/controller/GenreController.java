@@ -1,7 +1,7 @@
 package com.challenge.app.controller;
 
 import com.challenge.app.exception.GenreAlreadyExistsException;
-import com.challenge.app.exception.GenreNotFoundException;
+import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.model.request.GenreRequest;
 import com.challenge.app.model.response.GenreResponse;
 import com.challenge.app.service.abstraction.CreateGenre;
@@ -40,14 +40,14 @@ public class GenreController {
   }
 
   @GetMapping
-  public ResponseEntity<List<GenreResponse>> get() throws GenreNotFoundException {
+  public ResponseEntity<List<GenreResponse>> get() throws NotFoundException {
     List<GenreResponse> genreResponses = getGenre.getAll();
     return ResponseEntity.ok().body(genreResponses);
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<GenreResponse> update(@PathVariable(value = "id") Long id, @Valid @RequestBody GenreRequest request)
-      throws GenreNotFoundException {
+      throws NotFoundException {
     GenreResponse response = updateGenre.update(id, request);
     return ResponseEntity.ok(response);
   }

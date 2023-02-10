@@ -1,8 +1,8 @@
 package com.challenge.app.service.abstraction;
 
-import com.challenge.app.exception.GenreNotFoundException;
+import com.challenge.app.exception.NotFoundException;
 
 public interface DeleteGenre {
 
-  void delete(Long id) throws GenreNotFoundException;
+  void delete(Long id) throws NotFoundException;
 }

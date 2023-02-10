@@ -1,11 +1,12 @@
 package com.challenge.app.service.abstraction;
 
+import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.model.response.FilmSeriesResponse;
-import java.util.List;
+import com.challenge.app.model.response.ListFilmSeriesResponse;
 
 public interface GetFilmSeries {
 
-  FilmSeriesResponse get(Long id);
+  FilmSeriesResponse get(Long id) throws NotFoundException;
 
-  List<FilmSeriesResponse> getAll();
+  ListFilmSeriesResponse getAll() throws NotFoundException;
 }

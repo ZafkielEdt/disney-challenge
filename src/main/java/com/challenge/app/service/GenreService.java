@@ -1,7 +1,7 @@
 package com.challenge.app.service;
 
 import com.challenge.app.exception.GenreAlreadyExistsException;
-import com.challenge.app.exception.GenreNotFoundException;
+import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.mapper.GenreMapper;
 import com.challenge.app.model.entity.Genre;
 import com.challenge.app.model.request.GenreRequest;
@@ -37,22 +37,22 @@ public class GenreService implements CreateGenre, GetGenre, UpdateGenre, DeleteG
   }
 
   @Override
-  public List<GenreResponse> getAll() throws GenreNotFoundException {
+  public List<GenreResponse> getAll() throws NotFoundException {
 
     List<Genre> genres = genreRepository.findAll();
 
     if (Objects.isNull(genres)) {
-      throw new GenreNotFoundException("Genres not found");
+      throw new NotFoundException("Genres not found");
     }
 
     return genreMapper.map(genres);
   }
 
   @Override
-  public GenreResponse update(Long id, GenreRequest genreRequest) throws GenreNotFoundException {
+  public GenreResponse update(Long id, GenreRequest genreRequest) throws NotFoundException {
 
     Genre genre = genreRepository.findById(id)
-        .orElseThrow(() -> new GenreNotFoundException("Genre not found"));
+        .orElseThrow(() -> new NotFoundException("Genre not found"));
 
     updateValues(genre, genreRequest);
 
@@ -60,9 +60,9 @@ public class GenreService implements CreateGenre, GetGenre, UpdateGenre, DeleteG
   }
 
   @Override
-  public void delete(Long id) throws GenreNotFoundException {
+  public void delete(Long id) throws NotFoundException {
     Genre genre = genreRepository.findById(id)
-        .orElseThrow(() -> new GenreNotFoundException("Genre not found"));
+        .orElseThrow(() -> new NotFoundException("Genre not found"));
 
     genreRepository.delete(genre);
   }

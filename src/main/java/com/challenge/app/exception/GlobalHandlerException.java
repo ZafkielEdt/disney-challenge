@@ -29,8 +29,8 @@ public class GlobalHandlerException {
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(GenreNotFoundException.class)
-  public ResponseEntity<ErrorResponse> handleGenreNotFoundException(GenreNotFoundException e) {
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<ErrorResponse> handleGenreNotFoundException(NotFoundException e) {
     ErrorResponse errorResponse = buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
     return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
