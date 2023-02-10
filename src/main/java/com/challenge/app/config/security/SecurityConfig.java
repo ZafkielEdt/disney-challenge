@@ -24,16 +24,21 @@ public class SecurityConfig {
     return httpSecurity.
         csrf()
         .disable()
-        .authorizeHttpRequests(
-            auth -> auth.requestMatchers(HttpMethod.POST,
-                    PATH + "/login").permitAll()
-                .requestMatchers(HttpMethod.POST,
-                    PATH + "/register").permitAll())
+        .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.POST, PATH + "/login").permitAll()
+                .requestMatchers(HttpMethod.POST, PATH + "/register").permitAll())
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.POST, "/api/v2/genres").hasRole("ADMIN")
             .requestMatchers(HttpMethod.GET, "/api/v2/genres").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.PUT, "/api/v2/genres/{id}").hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/api/v2/genres/{id}").hasRole("ADMIN"))
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.POST, PATH + "/filmseries").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, PATH + "/filmseries/{id}").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, PATH + "/filmseries").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, PATH + "/filmseries/{id}").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, PATH + "/filmseries/{id}").hasRole("ADMIN")
+        )
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
