@@ -56,7 +56,7 @@ public class GenreService implements CreateGenre, GetGenre, UpdateGenre, DeleteG
 
     updateValues(genre, genreRequest);
 
-    return genreMapper.map(genre);
+    return genreMapper.map(genreRepository.save(genre));
   }
 
   @Override
