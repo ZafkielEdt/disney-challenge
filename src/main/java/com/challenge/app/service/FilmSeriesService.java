@@ -70,7 +70,7 @@ public class FilmSeriesService implements CreateFilmSeries, GetFilmSeries, Updat
 
     updateValues(filmSeries, request);
 
-    return filmSeriesMapper.map(filmSeries);
+    return filmSeriesMapper.map(filmSeriesRepository.save(filmSeries));
   }
 
   @Override
