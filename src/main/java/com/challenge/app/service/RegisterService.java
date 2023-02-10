@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RegisterImpl implements Register {
+public class RegisterService implements Register {
 
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;

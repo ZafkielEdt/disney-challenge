@@ -13,13 +13,12 @@ import com.challenge.app.service.abstraction.GetGenre;
 import com.challenge.app.service.abstraction.UpdateGenre;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GenreImpl implements CreateGenre, GetGenre, UpdateGenre, DeleteGenre {
+public class GenreService implements CreateGenre, GetGenre, UpdateGenre, DeleteGenre {
 
   private final GenreRepository genreRepository;
 
