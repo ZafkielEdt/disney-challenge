@@ -53,7 +53,8 @@ public class GenreController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable(value = "id") Long id) {
+  public ResponseEntity<Void> delete(@PathVariable(value = "id") Long id) throws NotFoundException {
+    deleteGenre.delete(id);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
