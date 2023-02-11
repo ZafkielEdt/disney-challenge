@@ -6,7 +6,7 @@ public record DCharacterResponse(
     Long weight,
     String story,
     String image,
-    ListDCharacterResponse dCharacterResponse
+    ListFilmSeriesResponse filmSeriesResponse
 ) {
 
 }
