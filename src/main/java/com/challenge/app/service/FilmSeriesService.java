@@ -14,7 +14,6 @@ import com.challenge.app.service.abstraction.GetFilmSeries;
 import com.challenge.app.service.abstraction.UpdateFilmSeries;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
