@@ -4,6 +4,7 @@ import com.challenge.app.exception.ElementAlreadyExistsException;
 import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.mapper.DCharacterMapper;
 import com.challenge.app.model.entity.DCharacter;
+import com.challenge.app.model.entity.FilmSeries;
 import com.challenge.app.model.request.DCharacterRequest;
 import com.challenge.app.model.response.DCharacterResponse;
 import com.challenge.app.model.response.ListDCharacterResponse;
@@ -13,8 +14,11 @@ import com.challenge.app.service.abstraction.CreateDCharacter;
 import com.challenge.app.service.abstraction.DeleteDCharacter;
 import com.challenge.app.service.abstraction.GetDCharacter;
 import com.challenge.app.service.abstraction.UpdateDCharacter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +73,7 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
 
     updateValues(dCharacter, request);
 
-    return characterMapper.map(dCharacter);
+    return characterMapper.map(characterRepository.save(dCharacter));
   }
 
   @Override
@@ -97,8 +101,15 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
       dCharacter.setImage(request.image());
     }
     if(request.filmSeriesId() != null) {
-      dCharacter.setFilmSeries(Set.of(filmSeriesRepository.findById(request.filmSeriesId())
-          .orElseThrow(() -> new NotFoundException("Film or series not found"))));
+
+      Set<FilmSeries> currentValues = dCharacter.getFilmSeries().stream().filter(filmSeries1 ->
+          !Objects.equals(filmSeries1.getId(), request.filmSeriesId())
+      ).collect(Collectors.toSet());
+
+      currentValues.add(filmSeriesRepository.findById(request.filmSeriesId())
+          .orElseThrow(() -> new NotFoundException("Film or series not found")));
+
+      dCharacter.setFilmSeries(currentValues);
     }
   }
 }
