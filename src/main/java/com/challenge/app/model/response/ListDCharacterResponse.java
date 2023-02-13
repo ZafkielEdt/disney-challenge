@@ -1,9 +1,13 @@
 package com.challenge.app.model.response;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-public record ListDCharacterResponse(
-    List<DCharacterResponse> dCharacterResponses
-) {
+@Getter
+@Setter
 
+public class ListDCharacterResponse extends PaginationResponse {
+
+  List<DCharacterResponse> dCharacterResponses;
 }
