@@ -17,22 +17,16 @@ public class GlobalHandlerException {
     return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
   }
 
-  @ExceptionHandler(UserAlreadyExistsException.class)
-  public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
-    ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-  }
-
-  @ExceptionHandler(GenreAlreadyExistsException.class)
-  public ResponseEntity<ErrorResponse> handleGenreAlreadyExistsException(GenreAlreadyExistsException e) {
-    ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-  }
-
   @ExceptionHandler(NotFoundException.class)
   public ResponseEntity<ErrorResponse> handleGenreNotFoundException(NotFoundException e) {
     ErrorResponse errorResponse = buildErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
     return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(ElementAlreadyExistsException.class)
+  public ResponseEntity<ErrorResponse> handleElementAlreadyExistsException(ElementAlreadyExistsException e) {
+    ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message) {

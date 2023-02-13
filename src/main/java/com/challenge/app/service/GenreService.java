@@ -1,6 +1,6 @@
 package com.challenge.app.service;
 
-import com.challenge.app.exception.GenreAlreadyExistsException;
+import com.challenge.app.exception.ElementAlreadyExistsException;
 import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.mapper.GenreMapper;
 import com.challenge.app.model.entity.Genre;
@@ -25,10 +25,11 @@ public class GenreService implements CreateGenre, GetGenre, UpdateGenre, DeleteG
   private final GenreMapper genreMapper;
 
   @Override
-  public GenreResponse create(GenreRequest request) throws GenreAlreadyExistsException {
+  public GenreResponse create(GenreRequest request)
+      throws ElementAlreadyExistsException {
 
     if (genreRepository.existsByName(request.name())) {
-      throw new GenreAlreadyExistsException("Genre already exists");
+      throw new ElementAlreadyExistsException("Genre already exists");
     }
 
     Genre genre = genreMapper.map(request);
