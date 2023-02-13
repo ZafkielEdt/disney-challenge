@@ -54,8 +54,9 @@ public class DCharacterMapper {
       responses.add(response);
     }
 
-    return new ListDCharacterResponse(
-        responses
-    );
+    ListDCharacterResponse listDCharacterResponse = new ListDCharacterResponse();
+    listDCharacterResponse.setDCharacterResponses(responses);
+
+    return listDCharacterResponse;
   }
 }

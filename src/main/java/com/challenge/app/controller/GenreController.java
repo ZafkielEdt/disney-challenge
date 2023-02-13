@@ -1,6 +1,6 @@
 package com.challenge.app.controller;
 
-import com.challenge.app.exception.GenreAlreadyExistsException;
+import com.challenge.app.exception.ElementAlreadyExistsException;
 import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.model.request.GenreRequest;
 import com.challenge.app.model.response.GenreResponse;
@@ -34,7 +34,7 @@ public class GenreController {
 
   @PostMapping
   public ResponseEntity<GenreResponse> create(@Valid @RequestBody GenreRequest request)
-      throws GenreAlreadyExistsException {
+      throws ElementAlreadyExistsException {
     GenreResponse response = createGenre.create(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
