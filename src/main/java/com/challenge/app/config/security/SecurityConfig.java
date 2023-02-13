@@ -42,6 +42,7 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.POST, PATH + "/dcharacters").hasRole("ADMIN")
             .requestMatchers(HttpMethod.GET, PATH + "/dcharacters/{id}").hasAnyRole("USER","ADMIN")
             .requestMatchers(HttpMethod.GET,PATH + "/dcharacters").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET,PATH + "/dcharacters/filter").hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.PUT, PATH + "/dcharacters/{id}").hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE, PATH + "/dcharacters/{id}").hasRole("ADMIN"))
         .sessionManagement()
