@@ -5,21 +5,24 @@ import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.mapper.DCharacterMapper;
 import com.challenge.app.model.entity.DCharacter;
 import com.challenge.app.model.entity.FilmSeries;
+import com.challenge.app.model.request.DCharacterFilter;
 import com.challenge.app.model.request.DCharacterRequest;
 import com.challenge.app.model.response.DCharacterResponse;
 import com.challenge.app.model.response.ListDCharacterResponse;
 import com.challenge.app.repository.DCharacterRepository;
 import com.challenge.app.repository.FilmSeriesRepository;
+import com.challenge.app.repository.specification.DCharacterSpecification;
 import com.challenge.app.service.abstraction.CreateDCharacter;
 import com.challenge.app.service.abstraction.DeleteDCharacter;
 import com.challenge.app.service.abstraction.GetDCharacter;
 import com.challenge.app.service.abstraction.UpdateDCharacter;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,12 +33,13 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
   private final DCharacterRepository characterRepository;
   private final DCharacterMapper characterMapper;
   private final FilmSeriesRepository filmSeriesRepository;
+  private final DCharacterSpecification dCharacterSpecification;
 
   @Override
   public DCharacterResponse create(DCharacterRequest request)
       throws ElementAlreadyExistsException, NotFoundException {
 
-    if(characterRepository.existsByName(request.name())) {
+    if (characterRepository.existsByName(request.name())) {
       throw new ElementAlreadyExistsException("Character already exists");
     }
 
@@ -63,6 +67,35 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
     }
 
     return characterMapper.map(dCharacters);
+  }
+
+  @Override
+  public ListDCharacterResponse getBy(String name, Long age, Set<Long> filmSeriesId,
+      Pageable pageable) throws NotFoundException {
+
+    DCharacterFilter dCharacterFilter = new DCharacterFilter(
+        name,
+        age,
+        filmSeriesId
+    );
+
+    Page<DCharacter> dCharacters = characterRepository.findAll(
+        dCharacterSpecification.getByFilters(dCharacterFilter), pageable);
+
+    if (dCharacters.isEmpty()) {
+      throw new NotFoundException("Any character found");
+    }
+
+    ListDCharacterResponse response = characterMapper.map(dCharacters.getContent());
+    buildPageResponse(response, dCharacters);
+
+    return response;
+  }
+
+  private void buildPageResponse(ListDCharacterResponse response, Page<DCharacter> page) {
+    response.setPage(page.getNumber());
+    response.setTotalPages(page.getTotalPages());
+    response.setSize(page.getSize());
   }
 
   @Override
@@ -94,13 +127,13 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
     if (request.weight() != null) {
       dCharacter.setWeight(request.weight());
     }
-    if(!request.story().isBlank()) {
+    if (!request.story().isBlank()) {
       dCharacter.setStory(request.story());
     }
-    if(!request.image().isBlank()) {
+    if (!request.image().isBlank()) {
       dCharacter.setImage(request.image());
     }
-    if(request.filmSeriesId() != null) {
+    if (request.filmSeriesId() != null) {
 
       Set<FilmSeries> currentValues = dCharacter.getFilmSeries().stream().filter(filmSeries1 ->
           !Objects.equals(filmSeries1.getId(), request.filmSeriesId())
