@@ -5,7 +5,7 @@ import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.mapper.DCharacterMapper;
 import com.challenge.app.model.entity.DCharacter;
 import com.challenge.app.model.entity.FilmSeries;
-import com.challenge.app.model.request.DCharacterFilter;
+import com.challenge.app.model.request.DCharacterFilterRequest;
 import com.challenge.app.model.request.DCharacterRequest;
 import com.challenge.app.model.response.DCharacterResponse;
 import com.challenge.app.model.response.ListDCharacterResponse;
@@ -73,14 +73,14 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
   public ListDCharacterResponse getBy(String name, Long age, Set<Long> filmSeriesId,
       Pageable pageable) throws NotFoundException {
 
-    DCharacterFilter dCharacterFilter = new DCharacterFilter(
+    DCharacterFilterRequest dCharacterFilterRequest = new DCharacterFilterRequest(
         name,
         age,
         filmSeriesId
     );
 
     Page<DCharacter> dCharacters = characterRepository.findAll(
-        dCharacterSpecification.getByFilters(dCharacterFilter), pageable);
+        dCharacterSpecification.getByFilters(dCharacterFilterRequest), pageable);
 
     if (dCharacters.isEmpty()) {
       throw new NotFoundException("Any character found");
