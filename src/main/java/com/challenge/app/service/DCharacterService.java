@@ -11,7 +11,7 @@ import com.challenge.app.model.response.DCharacterResponse;
 import com.challenge.app.model.response.ListDCharacterResponse;
 import com.challenge.app.repository.DCharacterRepository;
 import com.challenge.app.repository.FilmSeriesRepository;
-import com.challenge.app.repository.specification.DCharacterSpecification;
+import com.challenge.app.specification.DCharacterSpecification;
 import com.challenge.app.service.abstraction.CreateDCharacter;
 import com.challenge.app.service.abstraction.DeleteDCharacter;
 import com.challenge.app.service.abstraction.GetDCharacter;

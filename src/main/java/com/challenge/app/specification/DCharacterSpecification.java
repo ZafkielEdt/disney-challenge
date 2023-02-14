@@ -1,4 +1,4 @@
-package com.challenge.app.repository.specification;
+package com.challenge.app.specification;
 
 import com.challenge.app.model.entity.DCharacter;
 import com.challenge.app.model.entity.FilmSeries;
