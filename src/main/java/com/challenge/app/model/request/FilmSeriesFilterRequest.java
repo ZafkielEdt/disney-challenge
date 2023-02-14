@@ -1,12 +1,15 @@
 package com.challenge.app.model.request;
 
-import com.challenge.app.model.entity.Genre;
 import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class FilmSeriesFilterRequest {
 
   String title;
-  Set<Genre> genreId;
+  Set<Long> genreId;
   String order;
 
   public boolean isASC() {

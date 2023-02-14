@@ -23,7 +23,6 @@ public class FilmSeriesMapper {
   private final GenreRepository genreRepository;
 
   private final GenreMapper genreMapper;
-  private final DCharacterRepository dCharacterRepository;
   private final DCharacterMapper dCharacterMapper;
 
   public FilmSeries map(FilmSeriesRequest request) throws NotFoundException {
