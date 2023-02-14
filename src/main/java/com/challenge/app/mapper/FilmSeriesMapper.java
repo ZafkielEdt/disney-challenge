@@ -54,14 +54,15 @@ public class FilmSeriesMapper {
 
   public ListFilmSeriesResponse map(List<FilmSeries> filmSeries) {
     List<FilmSeriesResponse> filmSeriesResponseList = new ArrayList<>();
+    ListFilmSeriesResponse listFilmSeriesResponse = new ListFilmSeriesResponse();
 
     for (FilmSeries fs : filmSeries) {
       FilmSeriesResponse response = map(fs);
       filmSeriesResponseList.add(response);
     }
 
-    return new ListFilmSeriesResponse(
-        filmSeriesResponseList
-    );
+    listFilmSeriesResponse.setFilmSeriesResponses(filmSeriesResponseList);
+
+    return listFilmSeriesResponse;
   }
 }
