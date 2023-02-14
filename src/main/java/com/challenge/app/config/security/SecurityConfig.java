@@ -16,6 +16,7 @@ public class SecurityConfig {
   private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
   private final String PATH = "/api/v2";
+  private final String[] PATHS= {"/genres","/filmseries","/dcharacters"};
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)
@@ -28,23 +29,24 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, PATH + "/login").permitAll()
                 .requestMatchers(HttpMethod.POST, PATH + "/register").permitAll())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers(HttpMethod.POST, "/api/v2/genres").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.GET, "/api/v2/genres").hasAnyRole("USER", "ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/api/v2/genres/{id}").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.DELETE, "/api/v2/genres/{id}").hasRole("ADMIN"))
+            .requestMatchers(HttpMethod.POST, PATH + PATHS[0]).hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, PATH + PATHS[0]).hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, PATH + PATHS[0]).hasRole("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, PATH + PATHS[0] + "/{id}").hasRole("ADMIN"))
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers(HttpMethod.POST, PATH + "/filmseries").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.GET, PATH + "/filmseries/{id}").hasAnyRole("USER", "ADMIN")
-            .requestMatchers(HttpMethod.GET, PATH + "/filmseries").hasAnyRole("USER", "ADMIN")
-            .requestMatchers(HttpMethod.PUT, PATH + "/filmseries/{id}").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.DELETE, PATH + "/filmseries/{id}").hasRole("ADMIN"))
+            .requestMatchers(HttpMethod.POST, PATH + PATHS[1]).hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, PATH + PATHS[1] + "/{id}").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, PATH + PATHS[1]).hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, PATH + PATHS[1] + "/filter").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, PATH + PATHS[1] + "/{id}").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, PATH + PATHS[1] + "/{id}").hasRole("ADMIN"))
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers(HttpMethod.POST, PATH + "/dcharacters").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.GET, PATH + "/dcharacters/{id}").hasAnyRole("USER","ADMIN")
-            .requestMatchers(HttpMethod.GET,PATH + "/dcharacters").hasAnyRole("USER", "ADMIN")
-            .requestMatchers(HttpMethod.GET,PATH + "/dcharacters/filter").hasAnyRole("USER", "ADMIN")
-            .requestMatchers(HttpMethod.PUT, PATH + "/dcharacters/{id}").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.DELETE, PATH + "/dcharacters/{id}").hasRole("ADMIN"))
+            .requestMatchers(HttpMethod.POST, PATH + PATHS[2]).hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, PATH + PATHS[2]+ "/{id}").hasAnyRole("USER","ADMIN")
+            .requestMatchers(HttpMethod.GET,PATH + PATHS[2]).hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET,PATH + PATHS[2] + "/filter").hasAnyRole("USER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, PATH + PATHS[2] + "/{id}").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, PATH + PATHS[2] + "/{id}").hasRole("ADMIN"))
         .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()

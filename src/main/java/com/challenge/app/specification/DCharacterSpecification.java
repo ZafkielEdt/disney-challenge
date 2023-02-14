@@ -1,8 +1,8 @@
-package com.challenge.app.repository.specification;
+package com.challenge.app.specification;
 
 import com.challenge.app.model.entity.DCharacter;
 import com.challenge.app.model.entity.FilmSeries;
-import com.challenge.app.model.request.DCharacterFilter;
+import com.challenge.app.model.request.DCharacterFilterRequest;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -17,31 +17,31 @@ import org.springframework.util.StringUtils;
 @Component
 public class DCharacterSpecification {
 
-  public Specification<DCharacter> getByFilters(DCharacterFilter dCharacterFilter) {
+  public Specification<DCharacter> getByFilters(DCharacterFilterRequest dCharacterFilterRequest) {
 
     return (root, query, criteriaBuilder) -> {
 
       List<Predicate> predicates = new ArrayList<>();
 
-      if(StringUtils.hasLength(dCharacterFilter.name())) {
+      if(StringUtils.hasLength(dCharacterFilterRequest.name())) {
         predicates.add(
             criteriaBuilder.like(
                 criteriaBuilder.lower(root.get("name")),
-                "%" + dCharacterFilter.name().toLowerCase() + "%"
+                "%" + dCharacterFilterRequest.name().toLowerCase() + "%"
             )
         );
       }
 
-      if(dCharacterFilter.age() != null && dCharacterFilter.age() > 0) {
+      if(dCharacterFilterRequest.age() != null && dCharacterFilterRequest.age() > 0) {
         predicates.add(
-            criteriaBuilder.equal(root.get("age"), dCharacterFilter.age())
+            criteriaBuilder.equal(root.get("age"), dCharacterFilterRequest.age())
         );
       }
 
-      if(!CollectionUtils.isEmpty(dCharacterFilter.filmSeriesId())) {
+      if(!CollectionUtils.isEmpty(dCharacterFilterRequest.filmSeriesId())) {
         Join<DCharacter, FilmSeries> join = root.join("filmSeries", JoinType.INNER);
         Expression<String> movieId = join.get("id");
-        predicates.add(movieId.in(dCharacterFilter.filmSeriesId()));
+        predicates.add(movieId.in(dCharacterFilterRequest.filmSeriesId()));
       }
 
       // remove duplicate

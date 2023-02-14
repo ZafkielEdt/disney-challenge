@@ -4,6 +4,7 @@ import com.challenge.app.exception.ElementAlreadyExistsException;
 import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.mapper.FilmSeriesMapper;
 import com.challenge.app.model.entity.FilmSeries;
+import com.challenge.app.model.request.FilmSeriesFilterRequest;
 import com.challenge.app.model.request.FilmSeriesRequest;
 import com.challenge.app.model.response.FilmSeriesResponse;
 import com.challenge.app.model.response.ListFilmSeriesResponse;
@@ -12,9 +13,13 @@ import com.challenge.app.service.abstraction.CreateFilmSeries;
 import com.challenge.app.service.abstraction.DeleteFilmSeries;
 import com.challenge.app.service.abstraction.GetFilmSeries;
 import com.challenge.app.service.abstraction.UpdateFilmSeries;
+import com.challenge.app.specification.FilmSeriesSpecification;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,6 +30,7 @@ public class FilmSeriesService implements CreateFilmSeries, GetFilmSeries, Updat
   private final FilmSeriesRepository filmSeriesRepository;
 
   private final FilmSeriesMapper filmSeriesMapper;
+  private final FilmSeriesSpecification filmSeriesSpecification;
 
   @Override
   public FilmSeriesResponse create(FilmSeriesRequest request)
@@ -59,6 +65,34 @@ public class FilmSeriesService implements CreateFilmSeries, GetFilmSeries, Updat
     }
 
     return filmSeriesMapper.map(filmSeries);
+  }
+
+  @Override
+  public ListFilmSeriesResponse getBy(String title, Set<Long> genreId, String order,
+      Pageable pageable) throws NotFoundException {
+
+    FilmSeriesFilterRequest filterRequest = new FilmSeriesFilterRequest();
+    filterRequest.setTitle(title);
+    filterRequest.setGenreId(genreId);
+    filterRequest.setOrder(order);
+
+    Page<FilmSeries> page = filmSeriesRepository.findAll(filmSeriesSpecification
+        .getByFilters(filterRequest), pageable);
+
+    if (page.isEmpty()) {
+      throw new NotFoundException("Any film or series found");
+    }
+
+    ListFilmSeriesResponse response = filmSeriesMapper.map(page.getContent());
+    buildPageResponse(response, page);
+
+    return response;
+  }
+
+  private void buildPageResponse(ListFilmSeriesResponse response, Page<FilmSeries> page) {
+    response.setPage(page.getNumber());
+    response.setTotalPages(page.getTotalPages());
+    response.setSize(page.getSize());
   }
 
   @Override

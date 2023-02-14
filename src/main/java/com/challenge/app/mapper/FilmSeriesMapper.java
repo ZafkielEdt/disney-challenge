@@ -4,9 +4,10 @@ import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.model.entity.FilmSeries;
 import com.challenge.app.model.request.FilmSeriesRequest;
 import com.challenge.app.model.response.FilmSeriesResponse;
+import com.challenge.app.model.response.ListDCharacterResponse;
 import com.challenge.app.model.response.ListFilmSeriesResponse;
 import com.challenge.app.model.response.ListGenreResponse;
-import com.challenge.app.repository.FilmSeriesRepository;
+import com.challenge.app.repository.DCharacterRepository;
 import com.challenge.app.repository.GenreRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class FilmSeriesMapper {
   private final GenreRepository genreRepository;
 
   private final GenreMapper genreMapper;
+  private final DCharacterMapper dCharacterMapper;
 
   public FilmSeries map(FilmSeriesRequest request) throws NotFoundException {
     FilmSeries filmSeries = new FilmSeries();
@@ -35,6 +37,8 @@ public class FilmSeriesMapper {
   }
 
   public FilmSeriesResponse map(FilmSeries filmSeries) {
+    ListDCharacterResponse dCharacterResponse = new ListDCharacterResponse();
+    dCharacterResponse = dCharacterMapper.map(filmSeries.getCharacters().stream().toList());
     return new FilmSeriesResponse(
         filmSeries.getTitle(),
         filmSeries.getReleaseDate().toString(),
@@ -42,20 +46,22 @@ public class FilmSeriesMapper {
         filmSeries.getImage(),
         new ListGenreResponse(
             genreMapper.map(filmSeries.getGenres().stream().toList())
-        )
+        ),
+        dCharacterResponse
     );
   }
 
   public ListFilmSeriesResponse map(List<FilmSeries> filmSeries) {
     List<FilmSeriesResponse> filmSeriesResponseList = new ArrayList<>();
+    ListFilmSeriesResponse listFilmSeriesResponse = new ListFilmSeriesResponse();
 
     for (FilmSeries fs : filmSeries) {
       FilmSeriesResponse response = map(fs);
       filmSeriesResponseList.add(response);
     }
 
-    return new ListFilmSeriesResponse(
-        filmSeriesResponseList
-    );
+    listFilmSeriesResponse.setFilmSeriesResponses(filmSeriesResponseList);
+
+    return listFilmSeriesResponse;
   }
 }
