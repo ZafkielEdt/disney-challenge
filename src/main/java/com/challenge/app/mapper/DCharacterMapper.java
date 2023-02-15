@@ -1,14 +1,12 @@
 package com.challenge.app.mapper;
 
 import com.challenge.app.exception.NotFoundException;
+import com.challenge.app.mapper.attribute.DCharacterAttributes;
 import com.challenge.app.model.entity.DCharacter;
 import com.challenge.app.model.entity.FilmSeries;
 import com.challenge.app.model.request.DCharacterRequest;
 import com.challenge.app.model.response.DCharacterResponse;
-import com.challenge.app.model.response.FilmSeriesResponse;
 import com.challenge.app.model.response.ListDCharacterResponse;
-import com.challenge.app.model.response.ListFilmSeriesResponse;
-import com.challenge.app.model.response.ListGenreResponse;
 import com.challenge.app.repository.FilmSeriesRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +20,6 @@ import org.springframework.stereotype.Component;
 public class DCharacterMapper {
 
   private final FilmSeriesRepository filmSeriesRepository;
-
-  private final GenreMapper genreMapper;
 
   public DCharacter map(DCharacterRequest request) throws NotFoundException {
 
@@ -39,40 +35,37 @@ public class DCharacterMapper {
     return dCharacter;
   }
 
-  public DCharacterResponse map(DCharacter dCharacter) {
-    ListFilmSeriesResponse listFilmSeriesResponse = new ListFilmSeriesResponse();
-    listFilmSeriesResponse.setFilmSeriesResponses(dCharacter.getFilmSeries().stream().map(
-        this::mapTo
-    ).collect(Collectors.toList()));
+  public DCharacterResponse map(DCharacter dCharacter, DCharacterAttributes... dCharacterAttributes) {
+    DCharacterResponse response = new DCharacterResponse();
 
-    return new DCharacterResponse(
-        dCharacter.getName(),
-        dCharacter.getAge(),
-        dCharacter.getWeight(),
-        dCharacter.getStory(),
-        dCharacter.getImage(),
-        listFilmSeriesResponse
-    );
-  }
+    for (DCharacterAttributes attributes : dCharacterAttributes) {
+      switch (attributes) {
+        case ID -> response.setId(dCharacter.getId());
+        case NAME -> response.setName(dCharacter.getName());
+        case AGE -> response.setAge(dCharacter.getAge());
+        case WEIGHT -> response.setWeight(dCharacter.getWeight());
+        case STORY -> response.setStory(dCharacter.getStory());
+        case IMAGE -> response.setImage(dCharacter.getImage());
+        case FILMSERIES -> response.setFilmsSeriesTitles(dCharacter.getFilmSeries()
+            .stream().map(FilmSeries::getTitle).collect(Collectors.toList()));
+      }
+    }
 
-  private FilmSeriesResponse mapTo(FilmSeries filmSeries) {
-    return new FilmSeriesResponse(
-        filmSeries.getTitle(),
-        filmSeries.getReleaseDate().toString(),
-        filmSeries.getRating(),
-        filmSeries.getImage(),
-        new ListGenreResponse(
-            genreMapper.map(filmSeries.getGenres().stream().toList())
-        ),
-        null
-    );
+    return response;
   }
 
   public ListDCharacterResponse map(List<DCharacter> dCharacters) {
     List<DCharacterResponse> responses = new ArrayList<>();
 
     for (DCharacter character : dCharacters) {
-      DCharacterResponse response = map(character);
+      DCharacterResponse response = map(character,
+          DCharacterAttributes.ID,
+          DCharacterAttributes.NAME,
+          DCharacterAttributes.AGE,
+          DCharacterAttributes.WEIGHT,
+          DCharacterAttributes.STORY,
+          DCharacterAttributes.IMAGE,
+          DCharacterAttributes.FILMSERIES);
       responses.add(response);
     }
 
