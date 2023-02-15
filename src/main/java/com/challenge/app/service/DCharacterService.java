@@ -3,6 +3,7 @@ package com.challenge.app.service;
 import com.challenge.app.exception.ElementAlreadyExistsException;
 import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.mapper.DCharacterMapper;
+import com.challenge.app.mapper.attribute.DCharacterAttributes;
 import com.challenge.app.model.entity.DCharacter;
 import com.challenge.app.model.entity.FilmSeries;
 import com.challenge.app.model.request.DCharacterFilterRequest;
@@ -45,7 +46,14 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
 
     DCharacter dCharacter = characterMapper.map(request);
 
-    return characterMapper.map(characterRepository.save(dCharacter));
+    return characterMapper.map(characterRepository.save(dCharacter),
+        DCharacterAttributes.ID,
+        DCharacterAttributes.NAME,
+        DCharacterAttributes.AGE,
+        DCharacterAttributes.WEIGHT,
+        DCharacterAttributes.STORY,
+        DCharacterAttributes.IMAGE,
+        DCharacterAttributes.FILMSERIES);
   }
 
   @Override
@@ -54,7 +62,14 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
     DCharacter dCharacter = characterRepository.findById(id)
         .orElseThrow(() -> new NotFoundException("Character not found"));
 
-    return characterMapper.map(dCharacter);
+    return characterMapper.map(dCharacter,
+        DCharacterAttributes.ID,
+        DCharacterAttributes.NAME,
+        DCharacterAttributes.AGE,
+        DCharacterAttributes.WEIGHT,
+        DCharacterAttributes.STORY,
+        DCharacterAttributes.IMAGE,
+        DCharacterAttributes.FILMSERIES);
   }
 
   @Override
@@ -106,7 +121,14 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
 
     updateValues(dCharacter, request);
 
-    return characterMapper.map(characterRepository.save(dCharacter));
+    return characterMapper.map(characterRepository.save(dCharacter),
+        DCharacterAttributes.ID,
+        DCharacterAttributes.NAME,
+        DCharacterAttributes.AGE,
+        DCharacterAttributes.WEIGHT,
+        DCharacterAttributes.STORY,
+        DCharacterAttributes.IMAGE,
+        DCharacterAttributes.FILMSERIES);
   }
 
   @Override
