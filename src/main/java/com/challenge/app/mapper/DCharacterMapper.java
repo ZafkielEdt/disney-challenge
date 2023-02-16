@@ -46,7 +46,7 @@ public class DCharacterMapper {
         case WEIGHT -> response.setWeight(dCharacter.getWeight());
         case STORY -> response.setStory(dCharacter.getStory());
         case IMAGE -> response.setImage(dCharacter.getImage());
-        case FILMSERIES -> response.setFilmsSeriesTitles(dCharacter.getFilmSeries()
+        case FILM_SERIES -> response.setFilmsSeriesTitles(dCharacter.getFilmSeries()
             .stream().map(FilmSeries::getTitle).collect(Collectors.toList()));
       }
     }
@@ -65,7 +65,7 @@ public class DCharacterMapper {
           DCharacterAttributes.WEIGHT,
           DCharacterAttributes.STORY,
           DCharacterAttributes.IMAGE,
-          DCharacterAttributes.FILMSERIES);
+          DCharacterAttributes.FILM_SERIES);
       responses.add(response);
     }
 

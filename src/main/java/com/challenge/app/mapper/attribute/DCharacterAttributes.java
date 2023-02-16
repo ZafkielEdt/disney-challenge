@@ -8,7 +8,7 @@ public enum DCharacterAttributes {
   WEIGHT("weight"),
   STORY("story"),
   IMAGE("image"),
-  FILMSERIES("filmSeries");
+  FILM_SERIES("filmSeries");
 
   private final String fieldName;
 

@@ -53,7 +53,7 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
         DCharacterAttributes.WEIGHT,
         DCharacterAttributes.STORY,
         DCharacterAttributes.IMAGE,
-        DCharacterAttributes.FILMSERIES);
+        DCharacterAttributes.FILM_SERIES);
   }
 
   @Override
@@ -69,7 +69,7 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
         DCharacterAttributes.WEIGHT,
         DCharacterAttributes.STORY,
         DCharacterAttributes.IMAGE,
-        DCharacterAttributes.FILMSERIES);
+        DCharacterAttributes.FILM_SERIES);
   }
 
   @Override
@@ -128,7 +128,7 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
         DCharacterAttributes.WEIGHT,
         DCharacterAttributes.STORY,
         DCharacterAttributes.IMAGE,
-        DCharacterAttributes.FILMSERIES);
+        DCharacterAttributes.FILM_SERIES);
   }
 
   @Override
