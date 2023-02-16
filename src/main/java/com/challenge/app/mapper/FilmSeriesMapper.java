@@ -7,7 +7,6 @@ import com.challenge.app.model.response.FilmSeriesResponse;
 import com.challenge.app.model.response.ListDCharacterResponse;
 import com.challenge.app.model.response.ListFilmSeriesResponse;
 import com.challenge.app.model.response.ListGenreResponse;
-import com.challenge.app.repository.DCharacterRepository;
 import com.challenge.app.repository.GenreRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
