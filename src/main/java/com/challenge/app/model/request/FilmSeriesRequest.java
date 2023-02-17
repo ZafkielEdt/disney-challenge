@@ -2,6 +2,7 @@ package com.challenge.app.model.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.util.Set;
 
 public record FilmSeriesRequest(
     @NotBlank(message = "Title can't be empty or null")
@@ -13,7 +14,7 @@ public record FilmSeriesRequest(
     @NotBlank(message = "Image can't be empty or null")
     String image,
     @NotNull(message = "Genre can't be empty or null")
-    Long genreId
+    Set<Long> genreId
 ) {
 
 }
