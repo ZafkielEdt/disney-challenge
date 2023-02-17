@@ -1,17 +1,20 @@
 package com.challenge.app.mapper;
 
 import com.challenge.app.exception.NotFoundException;
+import com.challenge.app.mapper.attribute.FilmSeriesAttributes;
+import com.challenge.app.model.entity.DCharacter;
 import com.challenge.app.model.entity.FilmSeries;
+import com.challenge.app.model.entity.Genre;
 import com.challenge.app.model.request.FilmSeriesRequest;
 import com.challenge.app.model.response.FilmSeriesResponse;
-import com.challenge.app.model.response.ListDCharacterResponse;
 import com.challenge.app.model.response.ListFilmSeriesResponse;
-import com.challenge.app.model.response.ListGenreResponse;
+import com.challenge.app.repository.DCharacterRepository;
 import com.challenge.app.repository.GenreRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +23,7 @@ import org.springframework.stereotype.Component;
 public class FilmSeriesMapper {
 
   private final GenreRepository genreRepository;
-
-  private final GenreMapper genreMapper;
+  private final DCharacterRepository dCharacterRepository;
   private final DCharacterMapper dCharacterMapper;
 
   public FilmSeries map(FilmSeriesRequest request) throws NotFoundException {
@@ -35,19 +37,23 @@ public class FilmSeriesMapper {
     return filmSeries;
   }
 
-  public FilmSeriesResponse map(FilmSeries filmSeries) {
-    ListDCharacterResponse dCharacterResponse = new ListDCharacterResponse();
-    dCharacterResponse = dCharacterMapper.map(filmSeries.getCharacters().stream().toList());
-    return new FilmSeriesResponse(
-        filmSeries.getTitle(),
-        filmSeries.getReleaseDate().toString(),
-        filmSeries.getRating(),
-        filmSeries.getImage(),
-        new ListGenreResponse(
-            genreMapper.map(filmSeries.getGenres().stream().toList())
-        ),
-        dCharacterResponse
-    );
+  public FilmSeriesResponse map(FilmSeries filmSeries, FilmSeriesAttributes... filmSeriesAttributes) {
+    FilmSeriesResponse response = new FilmSeriesResponse();
+
+    for (FilmSeriesAttributes attributes : filmSeriesAttributes) {
+      switch (attributes) {
+        case ID -> response.setId(filmSeries.getId());
+        case TITLE -> response.setTitle(filmSeries.getTitle());
+        case RELEASE_DATE -> response.setReleaseDate(filmSeries.getReleaseDate().toString());
+        case RATING -> response.setRating(filmSeries.getRating());
+        case IMAGE -> response.setImage(filmSeries.getImage());
+        case GENRES -> response.setGenreNames(filmSeries.getGenres().stream()
+            .map(Genre::getName).collect(Collectors.toList()));
+        case CHARACTERS -> response.setCharacterNames(filmSeries.getCharacters().stream()
+            .map(DCharacter::getName).collect(Collectors.toList()));
+      }
+    }
+    return response;
   }
 
   public ListFilmSeriesResponse map(List<FilmSeries> filmSeries) {
@@ -55,7 +61,14 @@ public class FilmSeriesMapper {
     ListFilmSeriesResponse listFilmSeriesResponse = new ListFilmSeriesResponse();
 
     for (FilmSeries fs : filmSeries) {
-      FilmSeriesResponse response = map(fs);
+      FilmSeriesResponse response = map(fs,
+          FilmSeriesAttributes.ID,
+          FilmSeriesAttributes.TITLE,
+          FilmSeriesAttributes.RELEASE_DATE,
+          FilmSeriesAttributes.RATING,
+          FilmSeriesAttributes.IMAGE,
+          FilmSeriesAttributes.GENRES,
+          FilmSeriesAttributes.CHARACTERS);
       filmSeriesResponseList.add(response);
     }
 
