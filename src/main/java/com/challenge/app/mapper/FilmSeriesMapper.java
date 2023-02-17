@@ -13,7 +13,6 @@ import com.challenge.app.repository.GenreRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -32,8 +31,16 @@ public class FilmSeriesMapper {
     filmSeries.setReleaseDate(LocalDate.parse(request.releaseDate()));
     filmSeries.setRating(request.rating());
     filmSeries.setImage(request.image());
-    filmSeries.setGenres(Set.of(genreRepository.findById(request.genreId()).
-        orElseThrow(() -> new NotFoundException("Genre not found"))));
+    filmSeries.setGenres(request.genreId().stream()
+        .map(id -> {
+          try {
+            return genreRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Genre not found"));
+          } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+          }
+        })
+        .collect(Collectors.toSet()));
     return filmSeries;
   }
 
