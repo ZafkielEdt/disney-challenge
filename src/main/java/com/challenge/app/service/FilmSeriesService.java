@@ -50,8 +50,7 @@ public class FilmSeriesService implements CreateFilmSeries, GetFilmSeries, Updat
         FilmSeriesAttributes.RELEASE_DATE,
         FilmSeriesAttributes.RATING,
         FilmSeriesAttributes.IMAGE,
-        FilmSeriesAttributes.GENRES,
-        FilmSeriesAttributes.CHARACTERS);
+        FilmSeriesAttributes.GENRES);
   }
 
   @Override
