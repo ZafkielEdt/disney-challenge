@@ -3,6 +3,7 @@ package com.challenge.app.service;
 import com.challenge.app.exception.ElementAlreadyExistsException;
 import com.challenge.app.exception.NotFoundException;
 import com.challenge.app.mapper.FilmSeriesMapper;
+import com.challenge.app.mapper.attribute.FilmSeriesAttributes;
 import com.challenge.app.model.entity.FilmSeries;
 import com.challenge.app.model.request.FilmSeriesFilterRequest;
 import com.challenge.app.model.request.FilmSeriesRequest;
@@ -43,7 +44,14 @@ public class FilmSeriesService implements CreateFilmSeries, GetFilmSeries, Updat
     FilmSeries filmSeries = filmSeriesMapper.map(request);
 
 
-    return filmSeriesMapper.map(filmSeriesRepository.save(filmSeries));
+    return filmSeriesMapper.map(filmSeriesRepository.save(filmSeries),
+        FilmSeriesAttributes.ID,
+        FilmSeriesAttributes.TITLE,
+        FilmSeriesAttributes.RELEASE_DATE,
+        FilmSeriesAttributes.RATING,
+        FilmSeriesAttributes.IMAGE,
+        FilmSeriesAttributes.GENRES,
+        FilmSeriesAttributes.CHARACTERS);
   }
 
   @Override
@@ -52,7 +60,14 @@ public class FilmSeriesService implements CreateFilmSeries, GetFilmSeries, Updat
     FilmSeries filmSeries = filmSeriesRepository.findById(id)
         .orElseThrow(() -> new NotFoundException("Film or series not found"));
 
-    return filmSeriesMapper.map(filmSeries);
+    return filmSeriesMapper.map(filmSeries,
+        FilmSeriesAttributes.ID,
+        FilmSeriesAttributes.TITLE,
+        FilmSeriesAttributes.RELEASE_DATE,
+        FilmSeriesAttributes.RATING,
+        FilmSeriesAttributes.IMAGE,
+        FilmSeriesAttributes.GENRES,
+        FilmSeriesAttributes.CHARACTERS);
   }
 
   @Override
@@ -103,7 +118,14 @@ public class FilmSeriesService implements CreateFilmSeries, GetFilmSeries, Updat
 
     updateValues(filmSeries, request);
 
-    return filmSeriesMapper.map(filmSeriesRepository.save(filmSeries));
+    return filmSeriesMapper.map(filmSeriesRepository.save(filmSeries),
+        FilmSeriesAttributes.ID,
+        FilmSeriesAttributes.TITLE,
+        FilmSeriesAttributes.RELEASE_DATE,
+        FilmSeriesAttributes.RATING,
+        FilmSeriesAttributes.IMAGE,
+        FilmSeriesAttributes.GENRES,
+        FilmSeriesAttributes.CHARACTERS);
   }
 
   @Override
