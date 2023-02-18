@@ -30,8 +30,16 @@ public class DCharacterMapper {
     dCharacter.setWeight(request.weight());
     dCharacter.setStory(request.story());
     dCharacter.setImage(request.image());
-    dCharacter.setFilmSeries(Set.of(filmSeriesRepository.findById(request.filmSeriesId())
-        .orElseThrow(() -> new NotFoundException("Film or series not found"))));
+    dCharacter.setFilmSeries(request.filmSeriesId().stream()
+        .map(id -> {
+          try {
+            return filmSeriesRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Film or series not found"));
+          } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+          }
+        }).collect(
+            Collectors.toSet()));
     return dCharacter;
   }
 
