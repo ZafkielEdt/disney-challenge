@@ -4,7 +4,7 @@
 
 * OpenJDK 17 Adoptium
 * Spring Boot
-* JWT for authentication
+* JWT
 
 ## Diagram ER
 
@@ -15,4 +15,4 @@
 Before starting the project, replace the next variables
 in *"\src\main\resources\application.properties"*.
 
-<img src="https://i.imgur.com/3fiKd9P.png" width="50%" alt="code image">
+<img src="https://user-images.githubusercontent.com/66887467/220180401-39599d23-09ac-46bc-b5ef-3fb7e11b1120.svg" width="50%" alt="code image">
