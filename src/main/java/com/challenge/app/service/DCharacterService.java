@@ -161,8 +161,10 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
           !Objects.equals(filmSeries1.getId(), request.filmSeriesId())
       ).collect(Collectors.toSet());
 
-      currentValues.add(filmSeriesRepository.findById(request.filmSeriesId())
-          .orElseThrow(() -> new NotFoundException("Film or series not found")));
+      for (Long filmId : request.filmSeriesId()) {
+        currentValues.add(filmSeriesRepository.findById(filmId)
+            .orElseThrow(() -> new NotFoundException("Film or series not found")));
+      }
 
       dCharacter.setFilmSeries(currentValues);
     }
