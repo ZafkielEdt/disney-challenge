@@ -1,8 +1,12 @@
-# Disney Challenge - UPDATING
+# Disney Challenge
+
+## Description
+
+Updated version of a challenge that I made to apply to Alkemy Acceleration program.
 
 ## Technologies Used:
 
-* OpenJDK 17 Adoptium
+* Java - OpenJDK 17 Adoptium
 * Spring Boot
 * JWT
 
@@ -48,3 +52,7 @@ in *"\src\main\resources\application.properties"*.
 | cysonje24@gmail.com       | y59736c2y  |
 | gdgitte3@gmail.com        | d30762g6d  |
 | clsarvott11@gmail.com     | l22929c2l  |
+
+## Postman collection
+
+It can be found in *etc* folder
