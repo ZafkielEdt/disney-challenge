@@ -17,6 +17,7 @@ import com.challenge.app.service.abstraction.CreateDCharacter;
 import com.challenge.app.service.abstraction.DeleteDCharacter;
 import com.challenge.app.service.abstraction.GetDCharacter;
 import com.challenge.app.service.abstraction.UpdateDCharacter;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -156,10 +157,8 @@ public class DCharacterService implements CreateDCharacter, GetDCharacter, Updat
       dCharacter.setImage(request.image());
     }
     if (request.filmSeriesId() != null) {
-
-      Set<FilmSeries> currentValues = dCharacter.getFilmSeries().stream().filter(filmSeries1 ->
-          !Objects.equals(filmSeries1.getId(), request.filmSeriesId())
-      ).collect(Collectors.toSet());
+      
+      Set<FilmSeries> currentValues = new HashSet<>();
 
       for (Long filmId : request.filmSeriesId()) {
         currentValues.add(filmSeriesRepository.findById(filmId)
